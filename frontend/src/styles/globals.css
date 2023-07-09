@@ -1,0 +1,42 @@
+
+
+body,html {
+  margin: 0;
+  padding: 0;
+  display:flex;
+  flex-direction: column;
+  min-width: 320px;
+  min-height: 100vh;
+  font-family:  "arial", "Meiryo",sans-serif;
+}
+
+#app {
+  display:flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+}
+
+body{
+  /*CSS 共通*/
+  --header-height: 4rem;
+  --scrollbar-width: 0.6rem;
+}
+
+
+*::-webkit-scrollbar {
+  width: var(--scrollbar-width);
+}
+*::-webkit-scrollbar-track {
+  background: var(--primary-gray-350);
+  border: none;
+  /* border-radius: 0.6rem; */ /* 背景も丸みを帯びさせる */
+  box-shadow: inset 0 0 2px var(--primary-gray-400);
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--primary-gray-500);
+  border-radius: 0.3rem;
+  box-shadow: none;
+}
+
+

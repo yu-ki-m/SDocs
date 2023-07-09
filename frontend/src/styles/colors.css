@@ -1,0 +1,47 @@
+html{
+    /* Black */
+    --primary-black: #000000;
+
+    /* Gray */
+    --primary-gray-100: #1d1d1d;
+    --primary-gray-200: #2b2b2b;
+    --primary-gray-300: #3b3b3b;
+    --primary-gray-350: #484848;
+    --primary-gray-400: #575757;
+    --primary-gray-500: #757575;
+    --primary-gray-600: #969696;
+    --primary-gray-700: #b1b1b1;
+    --primary-gray-800: #d1d1d1;
+    --primary-gray-850: #e1e1e1;
+    --primary-gray-900: #f0f0f0;
+
+    /* Navy Gray*/
+    --primary-navy-gray-100: #08090e;
+    --primary-navy-gray-200: #1a1c26;
+    --primary-navy-gray-300: #232634;
+    --primary-navy-gray-400: #2d303e;
+    --primary-navy-gray-500: #3a3d4d;
+    --primary-navy-gray-600: #555761;
+    --primary-navy-gray-700: #6c6f7f;
+    --primary-navy-gray-800: #8c8f9e;
+    --primary-navy-gray-900: #b5b8c7;
+
+    /* Navy White */
+    
+    --primary-navy-white-100: #8686b1;
+    --primary-navy-white-200: #9595bb;
+    --primary-navy-white-300: #a4a4c5;
+    --primary-navy-white-400: #b3b3cf;
+    --primary-navy-white-500: #c2c2d9;
+    --primary-navy-white-600: #d1d1e3;
+    --primary-navy-white-700: #e0e0eb;
+    --primary-navy-white-800: #f0f0f6;
+    --primary-navy-white-900: #fcfcff;
+
+
+
+
+
+    /* White */
+    --primary-white: #ffffff;
+}
