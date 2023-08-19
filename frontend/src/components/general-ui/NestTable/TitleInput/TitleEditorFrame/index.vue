@@ -1,4 +1,3 @@
-
 <script setup lang="ts"></script>
 
 <template>
@@ -6,24 +5,21 @@
         <slot name="default"></slot>
     </div>
 </template>
-    
 
 <style module="style">
-
-.editorFrame{
-    display:flex;
+.editorFrame {
+    display: flex;
     flex-direction: column;
-    flex: 1 ;
+    flex: 1;
     background-color: var(--primary-navy-white-900);
     transition: box-shadow 0.3s ease-in-out;
-    padding-left:0.2rem;
+    padding-left: 0.2rem;
     border-radius: 0.3rem;
 }
-.editorFrame:focus-within{
+.editorFrame:focus-within {
     box-shadow: inset 0 0 0.5rem var(--primary-gray-800);
 }
-.editorFrame:hover{
+.editorFrame:hover {
     box-shadow: inset 0 0 0.5rem var(--primary-gray-800);
 }
-
 </style>

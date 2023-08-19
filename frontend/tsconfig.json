@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "*": ["src/*"]
+      "*": ["./src/*"]
     },
     "target": "ESNext",
     "useDefineForClassFields": true,
@@ -17,6 +17,6 @@
     "skipLibCheck": true,
     "noEmit": true
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "sfc.d.ts"],
+  "include": ["**/*.ts", "**/*.d.ts", "**/*.tsx", "**/*.vue", "sfc.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

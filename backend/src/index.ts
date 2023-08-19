@@ -1,4 +1,4 @@
-import * as dotenv from 'dotenv'
+import dotenv from 'dotenv'
 dotenv.config()
 
 import Env from './EnvMananger'
@@ -7,11 +7,14 @@ import knex,{ Knex } from 'knex'
 import getDbConfig from '../knexfile';
 import HttpRoutes from './HttpRoutes'
 import express, { Express } from 'express';
-import Logger, { LoggerInterface } from './Logger';
+import SDocsLogger, { SDocsLoggerInterface, createLogger } from './SDocsLogger';
+import { getLogConfig } from '../logger.config'
 
 
 const env = new Env(process.env);
-const logger:LoggerInterface = new Logger(console.debug,console.log,console.info,console.warn,console.error);
+
+
+const logger:SDocsLoggerInterface = new SDocsLogger(createLogger(getLogConfig()));
 const knexFile = getDbConfig();
 const db: Knex = knex(knexFile);
 const app: Express = express();

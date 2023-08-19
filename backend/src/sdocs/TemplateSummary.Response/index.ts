@@ -1,33 +1,18 @@
-import  { TagInterface } from "../TemplateSummary.Model"
+import {TemplateSummaryInterface } from '../TemplateSummary'
+
 export interface TemplateSummaryResponseInterface{
-    id: string;
-    viewName: string;
-    path: string;
-    describe:string;
-    tags: TagInterface[];
+    templateSummaries: TemplateSummaryInterface[];
 }
 
 /**
- * TemplateSummary
- * @param id テンプレートのサマリのID
- * @param viewName テンプレートのサマリの名前
- * @param path テンプレートのサマリのパス
- * @param describe テンプレートのサマリの説明
- * @param tags  テンプレートのサマリのタグ
+ * TemplateSummaryResponse
+ * @param templateSummaries
  */
-export default class TemplateSummaryResponse {
-    id: string;
-    viewName: string;
-    path: string;
-    describe:string;
-    tags: TagInterface[];
+export default class TemplateSummaryResponse implements TemplateSummaryResponseInterface {
+    templateSummaries: TemplateSummaryInterface[];
 
-    constructor(id: string, viewName: string, path: string, describe: string , tags: TagInterface[]){
-        this.id = id;
-        this.viewName = viewName;
-        this.path = path;
-        this.describe = describe;
-        this.tags = tags;
+    constructor(templateSummaries: TemplateSummaryInterface[]){
+        this.templateSummaries = templateSummaries;
     }
 }
 
