@@ -23,7 +23,7 @@ describe("index", () => {
             // * Arrange
             
             const env = new Env({
-                [ENV_KEY.NODE_ENV]:'test',
+                [ENV_KEY.NODE_ENV]:'unittest',
                 //[ENV_KEY.PORT]:'3000', // 不足させる箇所
                 [ENV_KEY.SERVER_URL]:'http://localhost:3000',
                 [ENV_KEY.CLIENT_URL]:'http://localhost:5173',

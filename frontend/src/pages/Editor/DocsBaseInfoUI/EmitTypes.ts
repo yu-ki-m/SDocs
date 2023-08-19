@@ -1,5 +1,5 @@
-export interface DocsBaseInfoInterface {
-    docsName: string
-    docsVersion: string
-    docsId: string
+export interface DocsBaseInfoInterface{
+    docsName : string
+    docsVersion : string
+    docsId : string
 }

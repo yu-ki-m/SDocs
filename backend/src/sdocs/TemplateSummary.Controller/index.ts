@@ -17,9 +17,9 @@ export default class TemplateSummaryController {
     getTemplateSummaries = (): ExpressAppFunction => {
         return async (req: Request, res: Response) => {
 
-            const templateSummaryResponse: TemplateSummaryResponseInterface = await this.templateSummaryService.getTemplateSummaries();
+            const templateSummaries: TemplateSummaryResponseInterface[] = await this.templateSummaryService.getTemplateSummaries();
 
-            res.json( templateSummaryResponse);
+            res.json(templateSummaries);
         }
     }
 }

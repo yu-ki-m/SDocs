@@ -4,15 +4,12 @@
  */
 
 import Env, { ENV_KEY,EnvInterface } from './src/EnvMananger'
-import  SDocsLogger, { SDocsLoggerInterface ,createLogger } from './src/SDocsLogger';
+import  Logger, { LoggerInterface } from './src/Logger';
 import { EXCEPTION_MESSAGE } from './src/Message'
-import { getLogConfig } from './logger.config'
-import { Knex } from 'knex';
 
+const logger:LoggerInterface = new Logger(console.debug,console.log,console.info,console.warn,console.error);
 
-const logger:SDocsLoggerInterface = new SDocsLogger(createLogger(getLogConfig()));
-
-const getDbConfig = ():Knex.Config => {
+const getDbConfig = () => {
 
     const env:EnvInterface = new Env(process.env);
     env.checkAllEnvSet();
@@ -43,13 +40,13 @@ const getDbConfig = ():Knex.Config => {
             },
             migrations: {
                 tableName: 'knex_migrations',
-                directory: './migrations/development'
+                directory: './migrations/develop'
             },
             seeds: {
-                directory: './seeds/development'
+                directory: './seeds/develop'
             }
         }
-    }else if (nodeEnv === "production") {
+    }else if (env.get(ENV_KEY.NODE_ENV) === "production") {
         return {
             client: dbClient,
             connection: {
@@ -71,17 +68,17 @@ const getDbConfig = ():Knex.Config => {
                 directory: './seeds/production'
             }
         }
-    }else if (nodeEnv === "test") {
+    }else if (env.get(ENV_KEY.NODE_ENV) === "unittest") {
         return {
             client: "sqlite3",
             connection: ":memory:",
             useNullAsDefault: true,
             migrations: {
                 tableName: 'knex_migrations',
-                directory: './migrations/development'
+                directory: './migrations/develop'
             },
             seeds: {
-                directory: './seeds/development'
+                directory: './seeds/develop'
             }
         }
     }else{

@@ -1,10 +1,10 @@
 
 import { TemplateSummaryRepositoryInterface } from '../TemplateSummary.Repository'
-import { TemplateSummaryInterface } from '../TemplateSummary'
+import { TemplateSummaryModelInterface } from '../TemplateSummary.Model'
 import TemplateSummaryResponse ,{ TemplateSummaryResponseInterface } from '../TemplateSummary.Response'
 
 export interface TemplateSummaryServiceInterface {
-    getTemplateSummaries:  () => Promise<TemplateSummaryResponseInterface>;
+    getTemplateSummaries:  () => Promise<TemplateSummaryModelInterface[]>;
 }
 
 export class TemplateSummaryService implements TemplateSummaryServiceInterface {
@@ -14,9 +14,11 @@ export class TemplateSummaryService implements TemplateSummaryServiceInterface {
     constructor(templateSummaryRepository:TemplateSummaryRepositoryInterface) {
         this.templateSummaryRepository = templateSummaryRepository
     }
-    getTemplateSummaries = async (): Promise<TemplateSummaryResponseInterface> => {
-        const templateSummaries: TemplateSummaryInterface[] = await this.templateSummaryRepository.getAll();
-        const templateSummariesResponse: TemplateSummaryResponseInterface = new TemplateSummaryResponse(templateSummaries)
+    getTemplateSummaries = async (): Promise<TemplateSummaryResponseInterface[]> => {
+        const templateSummaries: TemplateSummaryModelInterface[] = await this.templateSummaryRepository.getAll();
+        const templateSummariesResponse: TemplateSummaryResponseInterface[] = templateSummaries.map((templateSummary:TemplateSummaryModelInterface)=>{
+            return new TemplateSummaryResponse(templateSummary.id,templateSummary.viewName,templateSummary.path,templateSummary.describe,templateSummary.tags)
+        });
         return templateSummariesResponse;
     }
 }
