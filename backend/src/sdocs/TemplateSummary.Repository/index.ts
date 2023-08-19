@@ -2,16 +2,16 @@
 
 import { TemplateSummaryDBEntityInterface, TemplateSummaryDBEntity } from '../TemplateSummary.DBEntity'
 import { TagDBEntity, TagDBEntityInterface } from '../TemplateSummaryTag.DBEntity'
-import TemplateSummaryModel, { TemplateSummaryModelInterface, Tag } from '../TemplateSummary.Model'
+import {  TemplateSummary,TemplateSummaryInterface, Tag } from '../TemplateSummary'
 import {Knex} from "knex";
 
 
 export interface TemplateSummaryRepositoryInterface{
-    getAll(): Promise<TemplateSummaryModelInterface[]>
-    // byId(id: number): Promise<TemplateSummaryModelInterface>
-    // create(newTemplateSummary: NewTemplateSummary): Promise<TemplateSummaryModelInterface>
-    // update(templateDetail: TemplateDetail): Promise<TemplateSummaryModelInterface>
-    // delete(id: number): Promise<TemplateSummaryModelInterface>
+    getAll(): Promise<TemplateSummaryInterface[]>
+    // byId(id: number): Promise<TemplateSummaryInterface>
+    // create(newTemplateSummary: NewTemplateSummary): Promise<TemplateSummaryInterface>
+    // update(templateDetail: TemplateDetail): Promise<TemplateSummaryInterface>
+    // delete(id: number): Promise<TemplateSummaryInterface>
 }
 
 export class TemplateSummaryRepository implements TemplateSummaryRepositoryInterface {
@@ -19,18 +19,18 @@ export class TemplateSummaryRepository implements TemplateSummaryRepositoryInter
     constructor(db: Knex) {
         this.db = db
     }
-    async getAll(): Promise<TemplateSummaryModelInterface[]> {
+    async getAll(): Promise<TemplateSummaryInterface[]> {
         const templateSummariesDBEntity:TemplateSummaryDBEntity[]= await this.db<TemplateSummaryDBEntityInterface>('template_summaries');
 
         const templateSummariesPromise = templateSummariesDBEntity.map( async (TemplateSummaryDBEntity:TemplateSummaryDBEntity)=>{
-            const tagEntities:TagDBEntity[] = await this.db<TagDBEntityInterface>('template_summary_tags').where('template_id',TemplateSummaryDBEntity.id);
+            const tagEntities:TagDBEntity[] = await this.db<TagDBEntityInterface>('template_summary_tags').where('template_id',TemplateSummaryDBEntity.template_id);
             const tags:Tag[] = tagEntities.map((TagDBEntity:TagDBEntity)=>{
                 return new Tag(TagDBEntity.tagViewName)
             })
             
-            return new TemplateSummaryModel(TemplateSummaryDBEntity.id,TemplateSummaryDBEntity.viewName,TemplateSummaryDBEntity.path,TemplateSummaryDBEntity.describe,tags)
+            return new TemplateSummary(TemplateSummaryDBEntity.template_id,TemplateSummaryDBEntity.viewName,TemplateSummaryDBEntity.describe,tags)
         })
-        const templateSummaries:TemplateSummaryModel[] = await  Promise.all(templateSummariesPromise);
+        const templateSummaries:TemplateSummary[] = await  Promise.all(templateSummariesPromise);
 
         return templateSummaries
     }

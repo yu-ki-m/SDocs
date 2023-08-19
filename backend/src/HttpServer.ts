@@ -2,7 +2,7 @@
 import { Express } from 'express';
 import HttpRoutes from './HttpRoutes';
 import  { ENV_KEY,EnvInterface } from './EnvMananger';
-import { LoggerInterface } from './Logger';
+import { SDocsLoggerInterface } from './SDocsLogger';
 
 
 /** サーバー管理 */
@@ -16,9 +16,9 @@ export default class Server {
     env: EnvInterface;
 
     /** ロガー */
-    logger: LoggerInterface;
+    logger: SDocsLoggerInterface;
 
-    constructor(app:Express,env:EnvInterface,httpRoutes:HttpRoutes,logger:LoggerInterface){
+    constructor(app:Express,env:EnvInterface,httpRoutes:HttpRoutes,logger:SDocsLoggerInterface){
         this.app = app
         this.env = env;
         this.httpRoutes = httpRoutes;
@@ -48,6 +48,9 @@ export default class Server {
                 res.status(403).send('Forbidden')
             }
         })
+        // this.app.options("*", (req, res) => {
+        //     res.sendStatus(200);
+        // });
 
         // app.useの後に記述
         this.httpRoutes.setupRoutes();

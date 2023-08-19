@@ -7,11 +7,14 @@ import Env from "../../EnvMananger";
 import HttpRoutes from "../../HttpRoutes";
 import Server from "../../HttpServer";
 
-import TemplateSummaryModel from "../TemplateSummary.Model";
+import {TemplateSummary} from "../TemplateSummary";
 import { templateSummariesA } from "../../__tests__/__fixtures__/TemplateSummary";
-import Logger, { LoggerInterface } from "../../Logger";
+import SDocsLogger, { SDocsLoggerInterface, createLogger } from "../../SDocsLogger";
+import TemplateSummaryResponse,{ TemplateSummaryResponseInterface } from "../TemplateSummary.Response"
+import { getLogConfig } from "../../../logger.config";
 
-const logger:LoggerInterface = new Logger(console.debug,console.log,console.info,console.warn,console.error);
+
+const logger:SDocsLoggerInterface = new SDocsLogger(createLogger(getLogConfig()));
 const knexFile = getDbConfig();
 
 const db: Knex = knex(knexFile);
@@ -28,20 +31,24 @@ describe("index", () => {
     server.setup();
   });
   afterEach(async () => {
+    await db.migrate.rollback();
+  });
+  afterAll(async () => {
     await db.destroy();
   });
 
-
   describe("/api/template-summaries", () => {
     test("テンプレートサマリの一覧が取得できること", async () => {
-      const templateSummaries: TemplateSummaryModel[] = templateSummariesA;
+      const templateSummaries: TemplateSummary[] = templateSummariesA;
+      const expectedTemplateSummaryResponse: TemplateSummaryResponseInterface = new TemplateSummaryResponse(templateSummaries);
 
       return await request(server?.app)
         .get("/api/template-summaries")
         .then((response) => {
-          expect(response.body).toEqual(templateSummaries);
+          expect(response.body).toEqual(expectedTemplateSummaryResponse);
           expect(response.statusCode).toBe(200);
-        });
-    });
-  });
-});
+        })
+    })
+
+  })
+})
