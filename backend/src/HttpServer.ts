@@ -1,5 +1,5 @@
 
-import { Express } from 'express';
+import express, { Express } from 'express';
 import HttpRoutes from './HttpRoutes';
 import  { ENV_KEY,EnvInterface } from './EnvMananger';
 import { SDocsLoggerInterface } from './SDocsLogger';
@@ -32,8 +32,12 @@ export default class Server {
         this.env.checkAllEnvSet();
 
         const envModule = this.env
+        this.app.use(express.json());
+        this.app.use(express.urlencoded({ extended: true }));
+
         this.app.use(function (req, res, next) {
             // TODO: テストを追加する
+            
             const clientUrl = envModule.get(ENV_KEY.CLIENT_URL);
             const serverUrl = envModule.get(ENV_KEY.SERVER_URL);
             

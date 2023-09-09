@@ -81,13 +81,13 @@ describe('コンポーネント', () => {
 
             // * Assert
             expect(stubTemplateSummariesRepository.get_actualId).toBe('templateSummaryId-1-searchKey')
-            expect((wrapper.find('main label>input[id="editor_docs-name"]').element as HTMLInputElement).value).toBe(
+            expect((wrapper.find('label>input[id="editor_docs-name"]').element as HTMLInputElement).value).toBe(
                 'templateSummaryViewName-1'
             )
-            expect((wrapper.find('main label>input[id="editor_docs-version"]').element as HTMLInputElement).value).toBe(
+            expect((wrapper.find('label>input[id="editor_docs-version"]').element as HTMLInputElement).value).toBe(
                 '1.00'
             )
-            expect((wrapper.find('main label>input[id="editor_docs-id"]').element as HTMLInputElement).value).toBe(
+            expect((wrapper.find('label>input[id="editor_docs-id"]').element as HTMLInputElement).value).toBe(
                 'templateSummaryId-1'
             )
         })

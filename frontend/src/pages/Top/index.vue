@@ -32,7 +32,7 @@ const toEditorPage = (templateId: string) => {
 <template>
     <MainLayout :router-wrapper="pageProps.routerWrapper" :window-wrapper="pageProps.windowWrapper">
         <template #default>
-            <main :class="style.main" id="top-page">
+            <main id="top-page" :class="style.main">
                 <div id="template-summaries" :class="style.templateSummaries">
                     <div
                         v-for="templateSummary in templateSummaries"
@@ -51,8 +51,8 @@ const toEditorPage = (templateId: string) => {
                             <div :class="style.templateTags">
                                 <div
                                     v-for="tag in templateSummary.tags"
-                                    :class="style.templateTag"
                                     :key="tag.tagViewName"
+                                    :class="style.templateTag"
                                 >
                                     {{ tag.tagViewName }}
                                 </div>
@@ -122,4 +122,3 @@ const toEditorPage = (templateId: string) => {
     transition: background-color 0.5s;
 }
 </style>
-../../components/sdocs/TemplateSummary

@@ -6,7 +6,7 @@ const props = defineProps<PropsInterface>()
 </script>
 <template>
     <!-- インデント部 -->
-    <div v-for="i in indent" :class="style.indent"></div>
+    <div v-for="i in props.indent" :key="i" :class="style.indent"></div>
 </template>
 
 <style module="style">

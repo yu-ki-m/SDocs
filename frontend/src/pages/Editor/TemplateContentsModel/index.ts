@@ -36,11 +36,11 @@ export type TemplateContentsStateType = {
     contents: TemplateContentStateInterface[]
 }
 export interface TemplateContentsStateInterface extends TemplateContentsStateType {
-    updateContent: (contentUnitId: string, value: string) => void
-    deleteContent: (contentUnitIndex: number) => void
-    addContentsRichEditor: (uuidCreator: UuidInterface) => void
-    addContentsNestTable: (uuidCreator: UuidInterface) => void
-    moveIndex: (from: number, to: number) => void
+    updateContent: (contents: TemplateContentStateInterface[], contentUnitId: string, value: string) => void
+    deleteContent: (contents: TemplateContentStateInterface[], contentUnitIndex: number) => TemplateContentStateInterface[]
+    addContentsRichEditor: (contents: TemplateContentStateInterface[], uuidCreator: UuidInterface) => TemplateContentStateInterface[]
+    addContentsNestTable: (contents: TemplateContentStateInterface[], uuidCreator: UuidInterface) => TemplateContentStateInterface[]
+    moveIndex: (contents: TemplateContentStateInterface[], from: number, to: number) => TemplateContentStateInterface[]
 }
 export class TemplateContentsState implements TemplateContentsStateInterface {
     contents: TemplateContentState[]
@@ -48,40 +48,44 @@ export class TemplateContentsState implements TemplateContentsStateInterface {
         this.contents = contents
     }
 
-    updateContent = (contentUnitId: string, value: string) => {
-        const contentUnitTmp = this.contents.find((content) => content.id === contentUnitId)
+    updateContent = (contents: TemplateContentStateInterface[], contentUnitId: string, value: string) => {
+        const contentUnitTmp = contents.find((content) => content.id === contentUnitId)
         if (contentUnitTmp !== undefined) {
             contentUnitTmp.content = value
         }
+        return contents
     }
 
-    deleteContent = (contentUnitIndex: number) => {
-        this.contents.splice(contentUnitIndex, 1)
+    deleteContent = (contents: TemplateContentStateInterface[], contentUnitIndex: number) => {
+        contents.splice(contentUnitIndex, 1)
+        return contents
     }
 
-    addContentsRichEditor = (uuidCreator: UuidInterface) => {
+    addContentsRichEditor = (contents: TemplateContentStateInterface[], uuidCreator: UuidInterface) => {
         const templateContent: TemplateContentStateInterface = new TemplateContentState({
             id: uuidCreator.getUniquId(),
             contentType: 'quill',
             content: ''
         })
-        this.contents.push(templateContent)
+        //this.contents.push(templateContent)
+        const contentsTmp = [...contents, templateContent]
+        return contentsTmp
     }
 
-    addContentsNestTable = (uuidCreator: UuidInterface) => {
+    addContentsNestTable = (contents: TemplateContentStateInterface[], uuidCreator: UuidInterface) => {
         const templateContent: TemplateContentStateInterface = new TemplateContentState({
             id: uuidCreator.getUniquId(),
             contentType: 'nest-table',
             content: ''
         })
-        this.contents.push(templateContent)
+        //this.contents.push(templateContent)
+        const contentsTmp = [...contents, templateContent]
+        return contentsTmp
     }
-
-    moveIndex = (from: number, to: number) => {
-        const arr = [...this.contents]
-        const target = arr[from]
-        arr.splice(from, 1)
-        arr.splice(to, 0, target)
-        this.contents = arr
+    moveIndex = (contents: TemplateContentStateInterface[], from: number, to: number) => {
+        const target = contents[from]
+        contents.splice(from, 1)
+        contents.splice(to, 0, target)
+        return contents
     }
 }

@@ -5,7 +5,7 @@ import { Uuid, UuidInterface } from './index'
 import { describe, it, expect } from 'vitest'
 
 describe('Uuid', () => {
-    it('100,000個生成したIDが全てユニークであること', async () => {
+    it('1000個生成したIDが全てユニークであること', async () => {
         // * Arrage
         const uuidCreator: UuidInterface = new Uuid()
         let actual: string[] = []
@@ -16,6 +16,7 @@ describe('Uuid', () => {
         }
 
         // * Assert
+        console.log(typeof Uuid)
         expect(actual.length).toBe(1000)
         expect(actual.length).toBe(new Set(actual).size)
     })

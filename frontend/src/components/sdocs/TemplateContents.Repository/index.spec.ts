@@ -9,9 +9,29 @@ import { templateContentsA } from '../../../__tests__/__fixtures__/TemplateConte
 import { templateContentsResponseA } from '../../../__tests__/__fixtures__/TemplateContentsResponse'
 import StubHttpClient from '../../http/HttpClient/stubHttpClient'
 import HttpResponse from '../../http/HttpResponse/index'
+import { EMPTY_CONTENTS } from './const'
 
 describe('get', () => {
-    it('テンプレートサマリを取得する', async () => {
+    it('空のテンプレート内容を取得する', async () => {
+        // * Arrage
+        const stubHttpClient = new StubHttpClient()
+        stubHttpClient.get_returnValue = new HttpResponse<TemplateContentsResponseInterface>(
+            200,
+            'OK',
+            templateContentsResponseA
+        )
+
+        const targetTemplateContentsRepository = new TemplateContentsRepository(stubHttpClient)
+        const expectedTemplateContents: TemplateContentsInterface[] = EMPTY_CONTENTS
+
+        // * Act
+        const actualTemplateContentsList = await targetTemplateContentsRepository.get('new-create')
+
+        // * Assert
+        expect(actualTemplateContentsList).toEqual(expectedTemplateContents)
+        expect(stubHttpClient.get_wasCalled).toBe(false)
+    })
+    it('テンプレート内容を取得する', async () => {
         // * Arrage
         const stubHttpClient = new StubHttpClient()
         stubHttpClient.get_returnValue = new HttpResponse<TemplateContentsResponseInterface>(

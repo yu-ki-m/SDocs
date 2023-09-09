@@ -9,8 +9,28 @@ import { templateSummariesResponseA } from '../../../__tests__/__fixtures__/Temp
 import { TemplateSummariesResponseInterface } from '../TemplateSummary.Response'
 import StubHttpClient from '../../http/HttpClient/stubHttpClient'
 import HttpResponse from '../../http/HttpResponse/index'
+import { EMPTY_TEMPLATE_SUMMARY } from './const'
 
 describe('get', () => {
+    it('空のテンプレートサマリを取得する', async () => {
+        // * Arrage
+        const stubHttpClient = new StubHttpClient()
+        stubHttpClient.get_returnValue = new HttpResponse<TemplateSummariesResponseInterface>(
+            200,
+            'OK',
+            templateSummariesResponseA
+        )
+
+        const targetTemplateSummariesRepository = new TemplateSummariesRepository(stubHttpClient)
+
+        // * Act
+        const actualTemplateSummary: TemplateSummaryInterface =
+            await targetTemplateSummariesRepository.get('new-create')
+
+        // * Assert
+        expect(actualTemplateSummary).toEqual(EMPTY_TEMPLATE_SUMMARY)
+        expect(stubHttpClient.get_wasCalled).toBe(false)
+    })
     it('テンプレートサマリを取得する', async () => {
         // * Arrage
         const stubHttpClient = new StubHttpClient()
@@ -46,7 +66,10 @@ describe('getAll', () => {
         )
 
         const targetTemplateSummariesRepository = new TemplateSummariesRepository(stubHttpClient)
-        const expectedTemplateSummaries: TemplateSummaryInterface[] = [...structuredClone(templateSummariesA)]
+        const expectedTemplateSummaries: TemplateSummaryInterface[] = [
+            EMPTY_TEMPLATE_SUMMARY,
+            ...structuredClone(templateSummariesA)
+        ]
 
         // * Act
         const actualTemplateSummaries: TemplateSummaryInterface[] = await targetTemplateSummariesRepository.getAll()

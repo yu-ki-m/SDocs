@@ -66,6 +66,7 @@ const props = defineProps<PropsInterface>()
 .headerLeft {
     grid-area: header-left;
     display: flex;
+    padding: 0 1rem;
 }
 .headerRight {
     grid-area: header-right;

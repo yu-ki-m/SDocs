@@ -39,29 +39,29 @@ const inputUpdateDocsId = (event: Event) => {
         <div :class="style.baseInfo">
             <label>
                 <input
-                    :value="docsName"
-                    @input="inputUpdateDocsName($event)"
                     id="editor_docs-name"
                     placeholder="docs name"
                     title="docs name"
+                    :value="docsName"
+                    @input="inputUpdateDocsName($event)"
                 />
             </label>
             <label>
                 <input
-                    :value="docsVersion"
-                    @input="inputUpdateDocsVersion($event)"
                     id="editor_docs-version"
                     placeholder="docs version"
                     title="docs version"
+                    :value="docsVersion"
+                    @input="inputUpdateDocsVersion($event)"
                 />
             </label>
             <label>
                 <input
-                    :value="docsId"
-                    @input="inputUpdateDocsId($event)"
                     id="editor_docs-id"
                     placeholder="docs id"
                     title="docs id"
+                    :value="docsId"
+                    @input="inputUpdateDocsId($event)"
                 />
             </label>
         </div>
@@ -83,7 +83,7 @@ const inputUpdateDocsId = (event: Event) => {
     flex-direction: row;
     background-color: var(--primary-gray-900);
     flex: 1;
-    z-index: 100;
+    z-index: 10;
 }
 
 .baseInfo > label > input {
@@ -91,7 +91,7 @@ const inputUpdateDocsId = (event: Event) => {
     display: flex;
     background-color: var(--primary-gray-300);
     outline: none;
-    padding: 0;
+    padding: 0 0.5rem;
     margin: 0;
     border: solid var(--border-width) var(--primary-gray-400);
     color: var(--primary-gray-800);

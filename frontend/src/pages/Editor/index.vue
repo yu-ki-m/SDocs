@@ -17,6 +17,9 @@ import EditorFrame from '../../components/general-ui/RichEditor/EditorFrame/inde
 import DocsBaseInfoModel, { DocsBaseInfoModelInterface } from './DocsBaseInfoModel'
 
 import { TemplateSummaryInterface } from '../../components/sdocs/TemplateSummary'
+import ExportHtmlButton from './ExportHtmlButton/index.vue'
+import ExportJsonButton from './ExportJsonButton/index.vue'
+import FileImport from '../../assets/fileImport.svg'
 
 /** コンポーネントのProps型定義 */
 export interface PropsInterface {
@@ -56,7 +59,7 @@ const inputDocsBaseInfo = (value: DocsBaseInfoInterface | undefined) => {
 }
 
 /** テンプレートの内容群 */
-let templateContentsState = ref<TemplateContentsState>(
+const templateContentsState = ref<TemplateContentsState>(
     new TemplateContentsState([
         new TemplateContentState({ id: uuidCreator.getUniquId(), contentType: 'quill', content: '' })
     ])
@@ -78,20 +81,65 @@ onMounted(async () => {
 })
 
 const updateContent = (contentUnitId: string, value: string) => {
-    templateContentsState.value.updateContent(contentUnitId, value)
+    templateContentsState.value.contents = templateContentsState.value.updateContent(
+        templateContentsState.value.contents,
+        contentUnitId,
+        value
+    )
     templateContentsState.value = { ...templateContentsState.value }
 }
 const deleteContent = (contentUnitIndex: number) => {
-    templateContentsState.value.deleteContent(contentUnitIndex)
+    templateContentsState.value.contents = templateContentsState.value.deleteContent(
+        templateContentsState.value.contents,
+        contentUnitIndex
+    )
     templateContentsState.value = { ...templateContentsState.value }
 }
 const clickAddRichEditor = () => {
-    templateContentsState.value.addContentsRichEditor(uuidCreator)
+    templateContentsState.value.contents = templateContentsState.value.addContentsRichEditor(
+        templateContentsState.value.contents,
+        uuidCreator
+    )
     templateContentsState.value = { ...templateContentsState.value }
 }
 const clickAddNestTable = () => {
-    templateContentsState.value.addContentsNestTable(uuidCreator)
+    templateContentsState.value.contents = templateContentsState.value.addContentsNestTable(
+        templateContentsState.value.contents,
+        uuidCreator
+    )
     templateContentsState.value = { ...templateContentsState.value }
+}
+
+// TODO テストを記載する
+const fileUpload = (e: Event) => {
+    const files = (e.target as HTMLInputElement).files
+    if (files) {
+        const file = files[0]
+        const reader = new FileReader()
+        reader.onload = () => {
+            const fileContentsStr: string = reader.result as string
+            const json = JSON.parse(fileContentsStr)
+            // ここからはデータに適用する処理
+            docsBaseInfoModel.value.docsName = json.docsBaseInfo.docsName
+            docsBaseInfoModel.value.docsVersion = json.docsBaseInfo.docsVersion
+            docsBaseInfoModel.value.docsId = json.docsBaseInfo.docsId
+
+            templateContentsState.value.contents = json.templateContents.contents.map(
+                (templateContent: TemplateContentState) => {
+                    return new TemplateContentState({
+                        id: templateContent.id,
+                        contentType: templateContent.contentType,
+                        content: templateContent.content
+                    })
+                }
+            )
+            docsBaseInfoModel.value = { ...docsBaseInfoModel.value }
+            templateContentsState.value = { ...templateContentsState.value }
+        }
+        reader.readAsText(file)
+    }
+    // input type="file"のファイルをクリアする
+    ;(e.target as HTMLInputElement).value = ''
 }
 
 // Drag& Drop関連
@@ -101,81 +149,125 @@ const saveFromIndex = (index: number) => {
 }
 const moveItem = (targetIndex: number) => {
     if (dragFromIndex.value === null) return
-    templateContentsState.value.moveIndex(dragFromIndex.value, targetIndex)
+    templateContentsState.value.contents = templateContentsState.value.moveIndex(
+        templateContentsState.value.contents,
+        dragFromIndex.value,
+        targetIndex
+    )
     templateContentsState.value = { ...templateContentsState.value }
 }
 </script>
 
 <template>
     <MainLayout :router-wrapper="pageProps.routerWrapper" :window-wrapper="pageProps.windowWrapper">
-        <div :class="style.mainContainer" id="editor-page">
-            <nav :class="style.nav"><div :class="style.navContainer"></div></nav>
+        <div id="editor-page" :class="style.mainContainer">
+            <nav :class="style.nav">
+                <div :class="style.navContainer">
+                    <!-- TODO テストを追加する-->
+                    <ExportHtmlButton :filename="docsBaseInfoModel.docsName" :target-id="'svg-export-target'" />
+                    <!-- TODO テストを追加する-->
+                    <ExportJsonButton
+                        :filename="docsBaseInfoModel.docsName"
+                        :data="
+                            JSON.stringify(
+                                { docsBaseInfo: docsBaseInfoModel, templateContents: templateContentsState },
+                                null,
+                                '    '
+                            )
+                        "
+                    />
+                    <div style="display: flex; align-items: center">
+                        <label title="json file import" style="width: 1.2rem; height: 1.2rem; cursor: pointer">
+                            <img :src="FileImport" alt="file import" />
+                            <input
+                                style="display: none"
+                                type="file"
+                                @change="
+                                    (e: Event) => {
+                                        fileUpload(e)
+                                    }
+                                "
+                            />
+                        </label>
+                    </div>
+                </div>
+            </nav>
+            <DocsBaseInfo
+                :docs-name="docsBaseInfoModel.docsName"
+                :docs-version="docsBaseInfoModel.docsVersion"
+                :docs-id="docsBaseInfoModel.docsId"
+                @input="inputDocsBaseInfo"
+            ></DocsBaseInfo>
             <main :class="style.main">
-                <DocsBaseInfo
-                    :docs-name="docsBaseInfoModel.docsName"
-                    :docs-version="docsBaseInfoModel.docsVersion"
-                    :docs-id="docsBaseInfoModel.docsId"
-                    @input="inputDocsBaseInfo"
-                ></DocsBaseInfo>
                 <ContentsContainerLayout>
-                    <div
-                        v-for="(contentUnit, index) in templateContentsState.contents"
-                        draggable="true"
-                        @dragstart="() => saveFromIndex(index)"
-                        @drop="() => moveItem(index)"
-                        @dragover.prevent
-                        :key="contentUnit.id"
-                        data-gid="721126e3-b797-4bbd-a86f-8a3b725ed24e"
-                    >
-                        <template v-if="contentUnit.contentType == 'quill'">
-                            <RichEditorRecordLayout>
-                                <EditorFrame>
-                                    <QuillEditor
+                    <div id="svg-export-target">
+                        <div
+                            v-for="(contentUnit, index) in templateContentsState.contents"
+                            :key="contentUnit.id"
+                            :draggable="true"
+                            data-gid="721126e3-b797-4bbd-a86f-8a3b725ed24e"
+                            @dragstart="
+                                () => {
+                                    saveFromIndex(index)
+                                }
+                            "
+                            @drop="
+                                () => {
+                                    moveItem(index)
+                                }
+                            "
+                            @dragover.prevent
+                        >
+                            <template v-if="contentUnit.contentType == 'quill'">
+                                <RichEditorRecordLayout>
+                                    <EditorFrame>
+                                        <QuillEditor
+                                            :value="contentUnit.content"
+                                            @input="
+                                                (value: string) => {
+                                                    updateContent(contentUnit.id, value)
+                                                }
+                                            "
+                                        />
+                                    </EditorFrame>
+                                    <template #button>
+                                        <button
+                                            data-gid="258bf263-baf8-4437-a9b7-9cbbbd9a8397"
+                                            title="削除"
+                                            @click="deleteContent(index)"
+                                        >
+                                            ×
+                                        </button>
+                                    </template>
+                                </RichEditorRecordLayout>
+                            </template>
+                            <template v-else-if="contentUnit.contentType == 'nest-table'">
+                                <div :class="style.nestTable">
+                                    <NestTable
                                         :value="contentUnit.content"
                                         @input="
                                             (value: string) => {
                                                 updateContent(contentUnit.id, value)
                                             }
                                         "
-                                    />
-                                </EditorFrame>
-                                <template #button>
-                                    <button
-                                        title="削除"
-                                        @click="deleteContent(index)"
-                                        data-gid="258bf263-baf8-4437-a9b7-9cbbbd9a8397"
-                                    >
-                                        ×
-                                    </button>
-                                </template>
-                            </RichEditorRecordLayout>
-                        </template>
-                        <template v-else-if="contentUnit.contentType == 'nest-table'">
-                            <div :class="style.nestTable">
-                                <NestTable
-                                    :value="contentUnit.content"
-                                    @input="
-                                        (value: string) => {
-                                            updateContent(contentUnit.id, value)
-                                        }
-                                    "
-                                ></NestTable>
-                                <div :class="style.nestTableRightOption">
-                                    <button
-                                        :class="style.nestTableDelete"
-                                        title="削除"
-                                        @click="deleteContent(index)"
-                                        data-gid="341952cb-58ad-4da8-a628-e06bbbd0a133"
-                                    >
-                                        ×
-                                    </button>
+                                    ></NestTable>
+                                    <div :class="style.nestTableRightOption">
+                                        <button
+                                            :class="style.nestTableDelete"
+                                            data-gid="341952cb-58ad-4da8-a628-e06bbbd0a133"
+                                            title="削除"
+                                            @click="deleteContent(index)"
+                                        >
+                                            ×
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        </template>
+                            </template>
+                        </div>
                     </div>
                     <div :class="style.editorOption">
-                        <button type="button" id="add-rich-editor" @click="clickAddRichEditor">Add Rich Text</button>
-                        <button type="button" id="add-nest-table" @click="clickAddNestTable">Add Nest Table</button>
+                        <button id="add-rich-editor" type="button" @click="clickAddRichEditor">Add Rich Text</button>
+                        <button id="add-nest-table" type="button" @click="clickAddNestTable">Add Nest Table</button>
                     </div>
                 </ContentsContainerLayout>
             </main>
@@ -187,7 +279,6 @@ const moveItem = (targetIndex: number) => {
 .mainContainer {
     display: flex;
     flex-direction: column;
-    min-height: calc(100vh - var(--header-height));
     background-color: var(--primary-navy-white-900);
 }
 .nav {
@@ -200,6 +291,9 @@ const moveItem = (targetIndex: number) => {
     min-height: 1.5rem;
     width: 100vw;
     z-index: 100;
+    display: flex;
+    justify-items: center;
+    padding: 0 0.5rem;
 }
 
 .main {
@@ -259,4 +353,3 @@ const moveItem = (targetIndex: number) => {
     opacity: 1;
 }
 </style>
-../../components/sdocs/TemplateSummary
