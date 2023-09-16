@@ -38,10 +38,19 @@ html{
     --primary-navy-white-800: #f0f0f6;
     --primary-navy-white-900: #fcfcff;
 
-
-
-
-
     /* White */
     --primary-white: #ffffff;
+
+    /* Red White */
+    --primary-red-white-100: #ff8686;
+    --primary-red-white-200: #ff9595;
+    --primary-red-white-300: #ffa4a4;
+    --primary-red-white-400: #ffb3b3;
+    --primary-red-white-500: #ffc2c2;
+    --primary-red-white-600: #ffd1d1;
+    --primary-red-white-700: #ffe0e0;
+    --primary-red-white-800: #fff0f0;
+    --primary-red-white-900: #fffdfd;
+
+
 }

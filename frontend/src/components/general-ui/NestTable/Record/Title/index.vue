@@ -1,7 +1,4 @@
-<script setup lang="ts">
-export interface PropsInterface {}
-</script>
-
+<script setup lang="ts"></script>
 <template>
     <!-- タイトル部 -->
     <div :class="style.title">

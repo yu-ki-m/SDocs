@@ -11,7 +11,7 @@ export interface PropsInterface {
 }
 const props = defineProps<PropsInterface>()
 
-const emits = defineEmits<{ (e: 'input', value?: DocsBaseInfoInterface): void }>()
+const emits = defineEmits<{ (e: 'input', value: DocsBaseInfoInterface): void }>()
 
 const inputUpdateDocsName = (event: Event) => {
     let docsNameTmp = (event.target as HTMLInputElement).value

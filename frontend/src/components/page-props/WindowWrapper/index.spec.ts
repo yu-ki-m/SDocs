@@ -28,7 +28,7 @@ describe('window.open', () => {
         targetWindowWrapper.toTopNewTab()
 
         // * Assert
-        expect(actualUrl).toBe('/')
+        expect(actualUrl).toBe('./')
         expect(actualTarget).toBe('_blank')
     })
 })

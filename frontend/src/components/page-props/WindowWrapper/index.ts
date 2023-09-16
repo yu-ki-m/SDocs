@@ -4,7 +4,7 @@ export interface WindowWrapperInterface {
 
 export class WindowWrapper implements WindowWrapperInterface {
     toTopNewTab() {
-        window.open('/', '_blank')
+        window.open('./', '_blank')
         return null
     }
 }

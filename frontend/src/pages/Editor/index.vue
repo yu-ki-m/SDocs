@@ -6,6 +6,8 @@ import { TemplateContentState, TemplateContentsState } from './TemplateContentsM
 import { TemplateContentsInterface } from '../../components/sdocs/TemplateContents'
 import ContentsContainerLayout from './ContentsContainerLayout/index.vue'
 import NestTable from '../../components/general-ui/NestTable/index.vue'
+import RichTable from '../../components/general-ui/RichTable/index.vue'
+
 import RichEditorRecordLayout from '../../components/general-ui/RichEditorRecordLayout/index.vue'
 import { Uuid, UuidInterface } from '../../components/Uuid'
 import { PageProps } from '../../components/page-props//PageProps'
@@ -30,7 +32,7 @@ const props = defineProps<PropsInterface>()
 const uuidCreator: UuidInterface = new Uuid()
 
 /** 基本情報 */
-let docsBaseInfoModel: Ref<DocsBaseInfoModelInterface> = ref<DocsBaseInfoModelInterface>(
+const docsBaseInfoModel: Ref<DocsBaseInfoModelInterface> = ref<DocsBaseInfoModelInterface>(
     new DocsBaseInfoModel({ docsName: '', docsVersion: '', docsId: '' })
 )
 /** 基本情報の初期化 */
@@ -54,7 +56,7 @@ const inputDocsBaseInfo = (value: DocsBaseInfoInterface | undefined) => {
             docsVersion: value.docsVersion,
             docsId: value.docsId
         })
-        docsBaseInfoModel.value = { ...docsBaseInfoModel.value }
+        // docsBaseInfoModel.value = { ...docsBaseInfoModel.value }
     }
 }
 
@@ -104,6 +106,14 @@ const clickAddRichEditor = () => {
 }
 const clickAddNestTable = () => {
     templateContentsState.value.contents = templateContentsState.value.addContentsNestTable(
+        templateContentsState.value.contents,
+        uuidCreator
+    )
+    templateContentsState.value = { ...templateContentsState.value }
+}
+
+const clickAddRichTable = () => {
+    templateContentsState.value.contents = templateContentsState.value.addContentsRichTable(
         templateContentsState.value.contents,
         uuidCreator
     )
@@ -196,7 +206,11 @@ const moveItem = (targetIndex: number) => {
                 :docs-name="docsBaseInfoModel.docsName"
                 :docs-version="docsBaseInfoModel.docsVersion"
                 :docs-id="docsBaseInfoModel.docsId"
-                @input="inputDocsBaseInfo"
+                @input="
+                    (e: DocsBaseInfoInterface) => {
+                        inputDocsBaseInfo({ docsName: e.docsName, docsVersion: e.docsVersion, docsId: e.docsId })
+                    }
+                "
             ></DocsBaseInfo>
             <main :class="style.main">
                 <ContentsContainerLayout>
@@ -263,11 +277,35 @@ const moveItem = (targetIndex: number) => {
                                     </div>
                                 </div>
                             </template>
+                            <template v-else-if="contentUnit.contentType == 'rich-table'">
+                                <div :class="style.richTable">
+                                    <RichTable
+                                        :value="contentUnit.content"
+                                        @input="
+                                            (value: string) => {
+                                                updateContent(contentUnit.id, value)
+                                            }
+                                        "
+                                    >
+                                    </RichTable>
+                                    <div :class="style.richTableRightOption">
+                                        <button
+                                            :class="style.richTableDelete"
+                                            data-gid="e1502be2-1997-4561-b1ba-ee852f56eb49"
+                                            title="削除"
+                                            @click="deleteContent(index)"
+                                        >
+                                            ×
+                                        </button>
+                                    </div>
+                                </div>
+                            </template>
                         </div>
                     </div>
                     <div :class="style.editorOption">
                         <button id="add-rich-editor" type="button" @click="clickAddRichEditor">Add Rich Text</button>
                         <button id="add-nest-table" type="button" @click="clickAddNestTable">Add Nest Table</button>
+                        <button id="add-rich-table" type="button" @click="clickAddRichTable">Add Rich Table</button>
                     </div>
                 </ContentsContainerLayout>
             </main>
@@ -284,6 +322,12 @@ const moveItem = (targetIndex: number) => {
 .nav {
     display: flex;
     min-height: 1.5rem;
+}
+
+@media print {
+    .nav {
+        display: none;
+    }
 }
 .navContainer {
     position: fixed;
@@ -350,6 +394,23 @@ const moveItem = (targetIndex: number) => {
     transition: opacity 0.3s ease-in-out;
 }
 .nestTable:hover .nestTableDelete {
+    opacity: 1;
+}
+
+.richTable {
+    display: flex;
+    justify-content: center;
+}
+
+.richTableRightOption {
+    width: 1rem;
+}
+.richTableDelete {
+    width: 3rem;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+.richTable:hover .richTableDelete {
     opacity: 1;
 }
 </style>

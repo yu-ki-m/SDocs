@@ -1,4 +1,4 @@
-import { TemplateSummary } from "../../../sdocs/TemplateSummary";
+import { TemplateSummary } from "../../../sdocs/TemplateSummary/TemplateSummary";
 
 const templateSummariesA:TemplateSummary[] = [];
 templateSummariesA.push(new TemplateSummary("279f24d3-3a27-4376-8ced-9dd9398adc86","Empty Docs","説明１",[{"tagViewName": "base"},{"tagViewName": "sample"}]));

@@ -18,9 +18,7 @@ import { getHttpConfig } from './http.config'
 
 const windowWrapper = new WindowWrapper()
 const env = new Env(import.meta.env)
-
 const axiosObject = axios.create(getHttpConfig(env))
-
 const httpClient: HttpInterface = new HttpClient(axiosObject)
 
 const templateSummariesRepository: TemplateSummariesRepositoryInterface = new TemplateSummariesRepository(httpClient)
@@ -44,5 +42,7 @@ const pageProps: PagePropsInterface = new PageProps(windowWrapper, repositoryFac
 .main {
     display: flex;
     flex-flow: column;
+    min-height: 100vh;
+    background-color: var(--primary-navy-white-900);
 }
 </style>

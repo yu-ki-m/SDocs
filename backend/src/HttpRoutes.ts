@@ -1,12 +1,12 @@
 
 import { Express } from "express"
-import { TemplateSummaryRepository, TemplateSummaryRepositoryInterface } from "./sdocs/TemplateSummary.Repository"
-import { TemplateSummaryService } from "./sdocs/TemplateSummary.Service"
-import  TemplateSummaryController from "./sdocs/TemplateSummary.Controller"
+import { TemplateSummaryRepository, TemplateSummaryRepositoryInterface } from "./sdocs/TemplateSummary/TemplateSummaryRepository"
+import { TemplateSummaryService } from "./sdocs/TemplateSummary/TemplateSummaryService"
+import  TemplateSummaryController from "./sdocs/TemplateSummary/TemplateSummaryController"
 
-import { TemplateContentsRepository, TemplateContentsRepositoryInterface } from "./sdocs/TemplateContents.Repository"
-import { TemplateContentsService } from "./sdocs/TemplateContents.Service"
-import  TemplateContentsController from "./sdocs/TemplateContents.Controller"
+import { TemplateContentsRepository, TemplateContentsRepositoryInterface } from "./sdocs/TemplateContents/TemplateContentsRepository"
+import { TemplateContentsService } from "./sdocs/TemplateContents/TemplateContentsService"
+import  TemplateContentsController from "./sdocs/TemplateContents/TemplateContentsController"
 import  { EnvInterface } from './EnvMananger';
 
 import { Knex } from "knex"

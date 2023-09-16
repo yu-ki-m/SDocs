@@ -1,6 +1,6 @@
 import { Knex } from "knex";
 import SDocsLogger, { SDocsLoggerInterface, createLogger } from "../../src/SDocsLogger"
-import { TemplateContentsDBEntity } from "../../src/sdocs/TemplateContents.DBEntity"
+import { TemplateContentsDBEntity } from "../../src/sdocs/TemplateContents/TemplateContentsDBEntity"
 import { getLogConfig } from "../../logger.config"
 const logger:SDocsLoggerInterface = new SDocsLogger(createLogger(getLogConfig()));
 

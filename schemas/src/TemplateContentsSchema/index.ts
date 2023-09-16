@@ -1,5 +1,5 @@
 import { TemplateContentsInterface as FE_TemplateContentsInterface  } from '../../../frontend/src/components/sdocs/TemplateContents'
-import { TemplateContentsInterface as BE_TemplateContentsInterface } from '../../../backend/src/sdocs/TemplateContents'
+import { TemplateContentsInterface as BE_TemplateContentsInterface } from '../../../backend/src/sdocs/TemplateContents/TemplateContents'
 import { SameType } from '../index'
 
 export class TemplateContentsSchema implements SameType< FE_TemplateContentsInterface,BE_TemplateContentsInterface> {

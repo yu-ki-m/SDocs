@@ -37,9 +37,18 @@ export type TemplateContentsStateType = {
 }
 export interface TemplateContentsStateInterface extends TemplateContentsStateType {
     updateContent: (contents: TemplateContentStateInterface[], contentUnitId: string, value: string) => void
-    deleteContent: (contents: TemplateContentStateInterface[], contentUnitIndex: number) => TemplateContentStateInterface[]
-    addContentsRichEditor: (contents: TemplateContentStateInterface[], uuidCreator: UuidInterface) => TemplateContentStateInterface[]
-    addContentsNestTable: (contents: TemplateContentStateInterface[], uuidCreator: UuidInterface) => TemplateContentStateInterface[]
+    deleteContent: (
+        contents: TemplateContentStateInterface[],
+        contentUnitIndex: number
+    ) => TemplateContentStateInterface[]
+    addContentsRichEditor: (
+        contents: TemplateContentStateInterface[],
+        uuidCreator: UuidInterface
+    ) => TemplateContentStateInterface[]
+    addContentsNestTable: (
+        contents: TemplateContentStateInterface[],
+        uuidCreator: UuidInterface
+    ) => TemplateContentStateInterface[]
     moveIndex: (contents: TemplateContentStateInterface[], from: number, to: number) => TemplateContentStateInterface[]
 }
 export class TemplateContentsState implements TemplateContentsStateInterface {
@@ -76,6 +85,16 @@ export class TemplateContentsState implements TemplateContentsStateInterface {
         const templateContent: TemplateContentStateInterface = new TemplateContentState({
             id: uuidCreator.getUniquId(),
             contentType: 'nest-table',
+            content: ''
+        })
+        //this.contents.push(templateContent)
+        const contentsTmp = [...contents, templateContent]
+        return contentsTmp
+    }
+    addContentsRichTable = (contents: TemplateContentStateInterface[], uuidCreator: UuidInterface) => {
+        const templateContent: TemplateContentStateInterface = new TemplateContentState({
+            id: uuidCreator.getUniquId(),
+            contentType: 'rich-table',
             content: ''
         })
         //this.contents.push(templateContent)

@@ -6,4 +6,5 @@ module.exports = {
     printWidth: 120, // 1行の最大文字数
     proseWrap: 'preserve',  // デフォルトの折り返し方法を使用
     trailingComma: 'none', // 末尾のカンマを削除
+    endOfLine:"auto", // 改行コードを自動的に設定
 }

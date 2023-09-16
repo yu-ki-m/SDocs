@@ -1,0 +1,53 @@
+{
+    "templateContentsList": [
+        {
+            "template_summary_id": "279f24d3-3a27-4376-8ced-9dd9398adc86",
+            "template_content_id": "740a8257-f171-4128-8242-6cd6103c7aa9",
+            "order": 1,
+            "content_type": "quill",
+            "contents":  "<h1><strong><u>API設計書サンプル</u></strong></h1>"
+        },
+        {
+            "template_summary_id": "279f24d3-3a27-4376-8ced-9dd9398adc86",
+            "template_content_id": "ba8fc5c5-38a8-4c30-a7a9-b50184f12aa1",
+            "order": 2,
+            "content_type": "quill",
+            "contents": "<p class=\"ql-align-right\">YYYY年MM月DD日</p><p class=\"ql-align-right\">作成者：XXXXXXX</p>"
+        },
+        {
+            "template_summary_id": "279f24d3-3a27-4376-8ced-9dd9398adc86",
+            "template_content_id": "7982f846-6171-4541-bf77-d25471c1ac6b",
+            "order": 3,
+            "content_type": "quill",
+            "contents": "<h2><u>ファイル登録API</u></h2><h3>/api/v1/register</h3><ul><li>POSTリクエスト</li></ul>"
+        },
+        {
+            "template_summary_id": "279f24d3-3a27-4376-8ced-9dd9398adc86",
+            "template_content_id": "c725385d-45ac-43a8-bd35-754aaff9210d",
+            "order": 4,
+            "content_type": "nest-table",
+            "contents": "{\"id\":\"607fd39b-86b0-40e2-8d73-56603f519ad4\",\"tableTitle\":\"<h4>body</h4>\",\"records\":[{\"id\":\"a6fa7b20-33d2-486b-b930-14b91281352c\",\"indent\":0,\"isHeader\":true,\"isTitleOnly\":false,\"cells\":[{\"id\":\"41d26bdb-e73b-4a7a-bcc3-db14f7b4dec5\",\"cellType\":\"Quill\",\"content\":\"<p>パラメータ名</p>\"},{\"id\":\"16f84a2a-faa8-439a-a342-e1b5995da184\",\"cellType\":\"Quill\",\"content\":\"<p>解説</p>\"},{\"id\":\"20d7bd29-feb3-4929-a64e-54fa1742c0d8\",\"cellType\":\"Quill\",\"content\":\"<p>型</p>\"}]},{\"id\":\"95ab5ede-e5f4-4eb2-b558-738e8e6d1c1f\",\"indent\":0,\"isHeader\":false,\"isTitleOnly\":false,\"cells\":[{\"id\":\"5cea2c9d-2254-4636-ba24-e5133f2ceb3c\",\"cellType\":\"Quill\",\"content\":\"<p>id</p>\"},{\"id\":\"0a735d54-edc8-46db-a791-eacd246cf583\",\"cellType\":\"Quill\",\"content\":\"<p>xxx ID</p>\"},{\"id\":\"051ec412-86c0-40f6-afc2-dd163b61288b\",\"cellType\":\"Quill\",\"content\":\"<p>string</p>\"}]},{\"id\":\"a4aa049a-316a-4fbf-8eae-1a4d41e41bb7\",\"indent\":0,\"isHeader\":false,\"isTitleOnly\":false,\"cells\":[{\"id\":\"da589e38-d45c-4499-aba8-f7d974161b1f\",\"cellType\":\"Quill\",\"content\":\"<p>files</p>\"},{\"id\":\"eb999b1b-73f7-4c95-b97c-258d22296c91\",\"cellType\":\"Quill\",\"content\":\"<p>ファイルのオブジェクト</p>\"},{\"id\":\"a4839ebe-c815-4abf-bc42-840e330989da\",\"cellType\":\"Quill\",\"content\":\"<p>array</p>\"}]},{\"id\":\"9fca05f0-70de-400a-b5ac-725c7c5f2878\",\"indent\":1,\"isHeader\":false,\"isTitleOnly\":false,\"cells\":[{\"id\":\"54c15693-8f4a-4f1d-8422-7d4a9d4ef858\",\"cellType\":\"Quill\",\"content\":\"<p>filename</p>\"},{\"id\":\"72ca4ba3-9090-4a06-8adb-8526c1c47e06\",\"cellType\":\"Quill\",\"content\":\"<p>ファイル名</p>\"},{\"id\":\"0a2c62dd-8f90-44cf-a193-774bd471b2e4\",\"cellType\":\"Quill\",\"content\":\"<p>string</p>\"}]},{\"id\":\"10ea3087-e795-40b0-997a-dcb57b2f4fb1\",\"indent\":1,\"isHeader\":false,\"isTitleOnly\":false,\"cells\":[{\"id\":\"fcb5e507-24e6-4665-8240-546a2b63fd71\",\"cellType\":\"Quill\",\"content\":\"<p>data</p>\"},{\"id\":\"086f4555-55f9-4148-8c8f-ef614a79cb54\",\"cellType\":\"Quill\",\"content\":\"<p>base64エンコードしたファイルの実体</p>\"},{\"id\":\"23af601c-879f-4325-9532-acb78c926bf8\",\"cellType\":\"Quill\",\"content\":\"<p>string</p>\"}]}],\"tableContentModule\":{\"uuid\":{}},\"tableContentOptions\":{\"showTableContentIdOption\":true,\"showRecordIdOption\":true,\"showRecordOption\":true,\"showRowOption\":true}}"
+        },
+        {
+            "template_summary_id": "279f24d3-3a27-4376-8ced-9dd9398adc86",
+            "template_content_id": "f22fcd1c-0e16-4ea5-8947-c0fd74d86ff2",
+            "order": 5,
+            "content_type": "quill",
+            "contents": "<ul><li>POSTレスポンス</li></ul>"
+        },
+        {
+            "template_summary_id": "279f24d3-3a27-4376-8ced-9dd9398adc86",
+            "template_content_id": "44e8d532-eeb4-48b4-ab24-2253230cd592",
+            "order": 6,
+            "content_type": "nest-table",
+            "contents": "{\"id\":\"7925f757-69f2-4497-ad2e-db7dee8e9aed\",\"tableTitle\":\"<p>ステータスコード:200</p>\",\"records\":[{\"id\":\"3ded1220-a92e-4d51-877a-eebaa21b1772\",\"indent\":0,\"isHeader\":true,\"isTitleOnly\":false,\"cells\":[{\"id\":\"f848e004-094f-4d83-bc1d-c0ed240e8a40\",\"cellType\":\"Quill\",\"content\":\"<p>パラメータ名</p>\"},{\"id\":\"e4fc5663-3bff-42bf-af24-4dfb88aa1681\",\"cellType\":\"Quill\",\"content\":\"<p>解説</p>\"},{\"id\":\"3f137dd6-45c4-4f28-ab58-5248251f9ad5\",\"cellType\":\"Quill\",\"content\":\"<p>型</p>\"}]},{\"id\":\"c2dfc85e-b7a2-4cb8-903a-c34822a025ba\",\"indent\":0,\"isHeader\":false,\"isTitleOnly\":false,\"cells\":[{\"id\":\"06e26c08-dd0d-4662-8826-ffe9ce8a0671\",\"cellType\":\"Quill\",\"content\":\"<p>code</p>\"},{\"id\":\"9027efa2-8e58-4629-aa2d-c55e9d97ede8\",\"cellType\":\"Quill\",\"content\":\"<p>コード</p>\"},{\"id\":\"6afc957f-a413-4d3f-8580-423b87685cfb\",\"cellType\":\"Quill\",\"content\":\"<p>number</p>\"}]},{\"id\":\"1f8aff26-a345-43ee-92b7-c95c9c76ccac\",\"indent\":0,\"isHeader\":false,\"isTitleOnly\":false,\"cells\":[{\"id\":\"52854562-8a95-4b2c-832f-93a79e51e2f9\",\"cellType\":\"Quill\",\"content\":\"<p>message</p>\"},{\"id\":\"6754aa7d-cde0-4fef-9d1a-ee967fe28cd9\",\"cellType\":\"Quill\",\"content\":\"<p>メッセージ</p>\"},{\"id\":\"59178a8b-2c01-4c7f-abd3-4dc9c2ae3392\",\"cellType\":\"Quill\",\"content\":\"<p>string</p>\"}]}],\"tableContentModule\":{\"uuid\":{}},\"tableContentOptions\":{\"showTableContentIdOption\":true,\"showRecordIdOption\":true,\"showRecordOption\":true,\"showRowOption\":true}}"
+        },
+        {
+            "template_summary_id": "279f24d3-3a27-4376-8ced-9dd9398adc86",
+            "template_content_id": "d362e457-1b4d-4bab-9ea5-ea4d6f0b3f06",
+            "order": 7,
+            "content_type": "nest-table",
+            "contents": "{\"id\":\"173e858f-e957-444b-9159-50dc93e1aa78\",\"tableTitle\":\"<p>ステータスコード:101</p>\",\"records\":[{\"id\":\"efb355c3-ff75-4d89-913f-0687975e9a60\",\"indent\":0,\"isHeader\":true,\"isTitleOnly\":false,\"cells\":[{\"id\":\"59d87799-6196-4ac9-8b81-dfe3479578b4\",\"cellType\":\"Quill\",\"content\":\"<p>パラメータ名</p>\"},{\"id\":\"f9b93180-7854-413b-8a8a-fef9b07a4eaf\",\"cellType\":\"Quill\",\"content\":\"<p>解説</p>\"},{\"id\":\"a6e0b5e0-f83b-4173-8654-aa9a2b1af3db\",\"cellType\":\"Quill\",\"content\":\"<p>型</p>\"}]},{\"id\":\"d667df81-599d-4586-a64f-ca25cb1b0518\",\"indent\":0,\"isHeader\":false,\"isTitleOnly\":false,\"cells\":[{\"id\":\"8de9d8e9-da93-4b02-93e7-081ed7792823\",\"cellType\":\"Quill\",\"content\":\"<p>code</p>\"},{\"id\":\"426d1d36-2e0e-4348-8708-1dbafb90ab66\",\"cellType\":\"Quill\",\"content\":\"<p>コード</p>\"},{\"id\":\"8783081d-ebe4-4530-a768-99c7a84e4687\",\"cellType\":\"Quill\",\"content\":\"<p>number</p>\"}]},{\"id\":\"50943a45-8f4d-4f86-89c2-2e3d51106867\",\"indent\":0,\"isHeader\":false,\"isTitleOnly\":false,\"cells\":[{\"id\":\"5cc8291c-7e06-49e7-aba6-d47332761dc2\",\"cellType\":\"Quill\",\"content\":\"<p>message</p>\"},{\"id\":\"b7d2c0a7-f654-4668-a1a9-c5f7b1eb5a57\",\"cellType\":\"Quill\",\"content\":\"<p>メッセージ</p>\"},{\"id\":\"0d44d6bd-fb37-4daf-b070-0a67978f53f2\",\"cellType\":\"Quill\",\"content\":\"<p>string</p>\"}]}],\"tableContentModule\":{\"uuid\":{}},\"tableContentOptions\":{\"showTableContentIdOption\":true,\"showRecordIdOption\":true,\"showRecordOption\":true,\"showRowOption\":true}}"
+        }
+    ]
+}
