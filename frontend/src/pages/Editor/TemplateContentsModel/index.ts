@@ -49,6 +49,26 @@ export interface TemplateContentsStateInterface extends TemplateContentsStateTyp
         contents: TemplateContentStateInterface[],
         uuidCreator: UuidInterface
     ) => TemplateContentStateInterface[]
+    addContentsRichTable: (
+        contents: TemplateContentStateInterface[],
+        uuidCreator: UuidInterface
+    ) => TemplateContentStateInterface[]
+
+    insertNewContentsRichEditor: (
+        contents: TemplateContentStateInterface[],
+        to: number,
+        uuidCreator: UuidInterface
+    ) => TemplateContentStateInterface[]
+    insertNewContentsNestTable: (
+        contents: TemplateContentStateInterface[],
+        to: number,
+        uuidCreator: UuidInterface
+    ) => TemplateContentStateInterface[]
+    insertNewContentsRichTable: (
+        contents: TemplateContentStateInterface[],
+        to: number,
+        uuidCreator: UuidInterface
+    ) => TemplateContentStateInterface[]
     moveIndex: (contents: TemplateContentStateInterface[], from: number, to: number) => TemplateContentStateInterface[]
 }
 export class TemplateContentsState implements TemplateContentsStateInterface {
@@ -101,6 +121,36 @@ export class TemplateContentsState implements TemplateContentsStateInterface {
         const contentsTmp = [...contents, templateContent]
         return contentsTmp
     }
+
+    insertNewContentsRichEditor = (
+        contents: TemplateContentStateInterface[],
+        to: number,
+        uuidCreator: UuidInterface
+    ) => {
+        contents = this.addContentsRichEditor(contents, uuidCreator)
+        contents = this.moveIndex(contents, contents.length - 1, to)
+        return contents
+    }
+
+    insertNewContentsNestTable = (
+        contents: TemplateContentStateInterface[],
+        to: number,
+        uuidCreator: UuidInterface
+    ) => {
+        contents = this.addContentsNestTable(contents, uuidCreator)
+        contents = this.moveIndex(contents, contents.length - 1, to)
+        return contents
+    }
+    insertNewContentsRichTable = (
+        contents: TemplateContentStateInterface[],
+        to: number,
+        uuidCreator: UuidInterface
+    ) => {
+        contents = this.addContentsRichTable(contents, uuidCreator)
+        contents = this.moveIndex(contents, contents.length - 1, to)
+        return contents
+    }
+
     moveIndex = (contents: TemplateContentStateInterface[], from: number, to: number) => {
         const target = contents[from]
         contents.splice(from, 1)

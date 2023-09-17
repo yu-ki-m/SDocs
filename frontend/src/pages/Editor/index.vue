@@ -154,16 +154,39 @@ const fileUpload = (e: Event) => {
 
 // Drag& Drop関連
 const dragFromIndex = ref<number | null>(null)
-const saveFromIndex = (index: number) => {
+const operationNameForDrop = ref<string | null>(null)
+const saveFromIndex = (index: number, operationName: string) => {
     dragFromIndex.value = index
+    operationNameForDrop.value = operationName
 }
 const moveItem = (targetIndex: number) => {
     if (dragFromIndex.value === null) return
-    templateContentsState.value.contents = templateContentsState.value.moveIndex(
-        templateContentsState.value.contents,
-        dragFromIndex.value,
-        targetIndex
-    )
+    if (operationNameForDrop.value === null) return
+    if (operationNameForDrop.value === 'moveAnyItem') {
+        templateContentsState.value.contents = templateContentsState.value.moveIndex(
+            templateContentsState.value.contents,
+            dragFromIndex.value,
+            targetIndex
+        )
+    } else if (operationNameForDrop.value === 'new-rich-editor') {
+        templateContentsState.value.contents = templateContentsState.value.insertNewContentsRichEditor(
+            templateContentsState.value.contents,
+            targetIndex,
+            uuidCreator
+        )
+    } else if (operationNameForDrop.value === 'new-nest-table') {
+        templateContentsState.value.contents = templateContentsState.value.insertNewContentsNestTable(
+            templateContentsState.value.contents,
+            targetIndex,
+            uuidCreator
+        )
+    } else if (operationNameForDrop.value === 'new-rich-table') {
+        templateContentsState.value.contents = templateContentsState.value.insertNewContentsRichTable(
+            templateContentsState.value.contents,
+            targetIndex,
+            uuidCreator
+        )
+    }
     templateContentsState.value = { ...templateContentsState.value }
 }
 </script>
@@ -202,6 +225,46 @@ const moveItem = (targetIndex: number) => {
                     </div>
                 </div>
             </nav>
+            <nav :class="style.editNav">
+                <div :class="style.editNavInner">
+                    <div
+                        title="Rich Text"
+                        :draggable="true"
+                        :class="style.documentItem"
+                        @dragstart="
+                            () => {
+                                saveFromIndex(-1, 'new-rich-editor')
+                            }
+                        "
+                    >
+                        <span>T</span>
+                    </div>
+                    <div
+                        title="Nest Table"
+                        :draggable="true"
+                        :class="style.documentItem"
+                        @dragstart="
+                            () => {
+                                saveFromIndex(-1, 'new-nest-table')
+                            }
+                        "
+                    >
+                        <span>NT</span>
+                    </div>
+                    <div
+                        title="Rich Table"
+                        :draggable="true"
+                        :class="style.documentItem"
+                        @dragstart="
+                            () => {
+                                saveFromIndex(-1, 'new-rich-table')
+                            }
+                        "
+                    >
+                        <span>RT</span>
+                    </div>
+                </div>
+            </nav>
             <DocsBaseInfo
                 :docs-name="docsBaseInfoModel.docsName"
                 :docs-version="docsBaseInfoModel.docsVersion"
@@ -222,7 +285,7 @@ const moveItem = (targetIndex: number) => {
                             data-gid="721126e3-b797-4bbd-a86f-8a3b725ed24e"
                             @dragstart="
                                 () => {
-                                    saveFromIndex(index)
+                                    saveFromIndex(index, 'moveAnyItem')
                                 }
                             "
                             @drop="
@@ -412,5 +475,44 @@ const moveItem = (targetIndex: number) => {
 }
 .richTable:hover .richTableDelete {
     opacity: 1;
+}
+
+@media print {
+    .editNav {
+        display: none;
+    }
+}
+
+.editNav {
+    position: fixed;
+    display: flex;
+    right: 0;
+    transform: translateY(3.1rem);
+    height: 100vh;
+    width: 2.5rem;
+    background-color: var(--primary-gray-100);
+    z-index: 100;
+}
+
+.editNavInner {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    background-color: var(--primary-gray-300);;
+}
+.documentItem {
+    background-color: var(--primary-gray-400);
+    height: 2.5rem;
+    width: 2.5rem;
+    text-align: center;
+    color: var(--primary-gray-900);
+    line-height: 2.5rem;
+    border: none;
+    cursor: grab;
+    box-sizing: border-box;
+    border: solid 1px var(--primary-gray-500);
+}
+.documentItem:active {
+    cursor: grabbing;
 }
 </style>

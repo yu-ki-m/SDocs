@@ -147,6 +147,7 @@ const deleteRow = (deletePostion: number) => {
 .cell {
     border: solid 1px var(--primary-gray-700);
     min-width: 1.5rem;
+    padding: 0 0.2rem;
 }
 .cell_option {
     border: none;
