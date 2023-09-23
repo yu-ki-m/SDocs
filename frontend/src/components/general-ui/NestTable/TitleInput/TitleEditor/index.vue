@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ref, onMounted, Ref, computed } from 'vue'
-import { QuillEditor, Quill } from '@vueup/vue-quill'
+import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.bubble.css'
 
 /** コンポーネントのProps型定義 */
 export interface PropsInterface {
     value: string
+    daynamicId: string
 }
 const props = defineProps<PropsInterface>()
 
@@ -39,12 +39,13 @@ const costomToolbar = [
 <template>
     <QuillEditor
         data-gid="f492fcdd-5fbd-4cde-9f8f-624c7fc8a57d"
+        :daynamic-id="props.daynamicId"
         :placeholder="''"
         :theme="'bubble'"
         :content="value"
         :content-type="'html'"
-        @update:content="inputValue"
         :toolbar="costomToolbar"
+        @update:content="inputValue"
     >
     </QuillEditor>
 </template>

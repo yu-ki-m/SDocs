@@ -6,13 +6,14 @@ import { ref, Ref } from 'vue'
 export interface PropsInterface {
     filename: string
     targetId: string
+    saveJsonData: string
 }
 
 const props = defineProps<PropsInterface>()
 const isLoading: Ref<boolean> = ref(false)
 
 // TODO 整理が必要, テストも必要
-import { DomToSvg } from './DomToSvg'
+import { DomToHtml } from './DomToHtml'
 
 const fileDownload = (fileName: string, content: string, document: Document) => {
     let downLoadLink = document.createElement('a')
@@ -21,16 +22,18 @@ const fileDownload = (fileName: string, content: string, document: Document) => 
     downLoadLink.dataset.downloadurl = ['text/plain', downLoadLink.download, downLoadLink.href].join(':')
     downLoadLink.click()
 }
-const parseSvg = (filename: string, targetId: string) => {
+const parseSvg = (filename: string, targetId: string, saveJsonData: string) => {
     // TODO テストが必要
     isLoading.value = true
     setTimeout(() => {
-        const svgString = DomToSvg.parse(document, targetId)
+        const innerHtmlString = DomToHtml.parse(document, targetId)
         const htmlString = `
         <!DOCTYPE html>
+        <head><meta charset="UTF-8"></head>
         <html lang="ja">
             <body style="display:flex;justify-content: center;">
-                ${svgString}
+                ${innerHtmlString}
+                <div id="save-json-data" style="display:none">${saveJsonData}</div>
             </body>
         </html>
         `
@@ -44,7 +47,7 @@ const parseSvg = (filename: string, targetId: string) => {
     <button
         title="export html"
         style="color: var(--primary-white); display: flex"
-        @click="parseSvg(props.filename, props.targetId)"
+        @click="parseSvg(props.filename, props.targetId, props.saveJsonData )"
     >
         <img alt="export html" style="width: 1.4rem; height: 1.4rem" :src="exportButton" />
     </button>

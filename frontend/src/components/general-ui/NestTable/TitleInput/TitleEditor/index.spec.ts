@@ -11,7 +11,8 @@ describe('表示', () => {
     it('初期表示', async () => {
         // * Arrange
         const props: PropsInterface = {
-            value: '<p>test content for quill Wrapper</p>'
+            value: '<p>test content for quill Wrapper</p>',
+            daynamicId: 'dummy-daynamic-id'
         }
         // * Act
         const wrapper = mount(RichEditor, { props })
@@ -24,7 +25,10 @@ describe('表示', () => {
 
     it('emitの確認', async () => {
         // * Arrange
-        const props: PropsInterface = { value: '' }
+        const props: PropsInterface = {
+            value: '',
+            daynamicId: 'dummy-daynamic-id'
+        }
         const wrapper = mount(RichEditor, { props })
         // * Act
         wrapper.getCurrentComponent().emit('input', '<p>update content</p>')

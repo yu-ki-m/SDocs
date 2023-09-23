@@ -197,7 +197,17 @@ const moveItem = (targetIndex: number) => {
             <nav :class="style.nav">
                 <div :class="style.navContainer">
                     <!-- TODO テストを追加する-->
-                    <ExportHtmlButton :filename="docsBaseInfoModel.docsName" :target-id="'svg-export-target'" />
+                    <ExportHtmlButton
+                        :filename="docsBaseInfoModel.docsName"
+                        :target-id="'html-export-target'"
+                        :save-json-data="
+                            JSON.stringify(
+                                { docsBaseInfo: docsBaseInfoModel, templateContents: templateContentsState },
+                                null,
+                                '    '
+                            )
+                        "
+                    />
                     <!-- TODO テストを追加する-->
                     <ExportJsonButton
                         :filename="docsBaseInfoModel.docsName"
@@ -277,7 +287,7 @@ const moveItem = (targetIndex: number) => {
             ></DocsBaseInfo>
             <main :class="style.main">
                 <ContentsContainerLayout>
-                    <div id="svg-export-target">
+                    <div id="html-export-target">
                         <div
                             v-for="(contentUnit, index) in templateContentsState.contents"
                             :key="contentUnit.id"
@@ -365,7 +375,15 @@ const moveItem = (targetIndex: number) => {
                             </template>
                         </div>
                     </div>
-                    <div :class="style.editorOption">
+                    <div
+                        :class="style.editorOption"
+                        @drop="
+                            () => {
+                                moveItem(templateContentsState.contents.length)
+                            }
+                        "
+                        @dragover.prevent
+                    >
                         <button id="add-rich-editor" type="button" @click="clickAddRichEditor">Add Rich Text</button>
                         <button id="add-nest-table" type="button" @click="clickAddNestTable">Add Nest Table</button>
                         <button id="add-rich-table" type="button" @click="clickAddRichTable">Add Rich Table</button>
@@ -476,13 +494,6 @@ const moveItem = (targetIndex: number) => {
 .richTable:hover .richTableDelete {
     opacity: 1;
 }
-
-@media print {
-    .editNav {
-        display: none;
-    }
-}
-
 .editNav {
     position: fixed;
     display: flex;
@@ -492,6 +503,12 @@ const moveItem = (targetIndex: number) => {
     width: 2.5rem;
     background-color: var(--primary-gray-100);
     z-index: 100;
+}
+
+@media print {
+    .editNav {
+        display: none;
+    }
 }
 
 .editNavInner {

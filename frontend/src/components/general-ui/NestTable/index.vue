@@ -163,6 +163,7 @@ const copyToClipBoard = (text: string) => {
             <TitleFrame>
                 <TitleInput
                     :value="tableContents.tableTitle"
+                    :daynamic-id="tableContents.id"
                     @input="
                         (value: string) => {
                             titleChange(value)
@@ -314,6 +315,7 @@ const copyToClipBoard = (text: string) => {
                         </template>
                         <CellInput
                             :value="cell.content"
+                            :daynamic-id="cell.id"
                             @input="
                                 (value: string) => {
                                     updateTitleCellInput(cell, value)
@@ -360,6 +362,7 @@ const copyToClipBoard = (text: string) => {
                             </template>
                             <CellInput
                                 :value="cell.content"
+                                :daynamic-id="cell.id"
                                 @input="
                                     (value: string) => {
                                         updateDataCellInput(cell, value)

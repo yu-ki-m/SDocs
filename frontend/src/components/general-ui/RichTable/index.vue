@@ -75,6 +75,15 @@ const deleteRow = (deletePostion: number) => {
 </script>
 <template>
     <table role="table" class="rich-table">
+        <tr class="record">
+            <td ><!-- add button area --></td>
+            <td v-for="(cell, cellIndex) in tableContents.records.at(0)?.cells" :key="cell.id" class="record_option">
+                <div class="record_option_inner">
+                    <button class="add-button" tabindex="-1" @click="addRow(cellIndex)">+</button>
+                </div>
+            </td>
+            <td><!-- delete button area --></td>
+        </tr>
         <tr
             v-for="(recordContent, recordIndex) in tableContents.records"
             :key="recordContent.id"
@@ -135,7 +144,6 @@ const deleteRow = (deletePostion: number) => {
             <td><!-- add button area --></td>
             <td v-for="(cell, cellIndex) in tableContents.records.at(0)?.cells" :key="cell.id" class="record_option">
                 <div class="record_option_inner">
-                    <button class="add-button" tabindex="-1" @click="addRow(cellIndex)">+</button>
                     <button class="delete-button" tabindex="-1" @click="deleteRow(cellIndex)">×</button>
                 </div>
             </td>
