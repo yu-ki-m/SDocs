@@ -287,7 +287,7 @@ const moveItem = (targetIndex: number) => {
             ></DocsBaseInfo>
             <main :class="style.main">
                 <ContentsContainerLayout>
-                    <div id="html-export-target">
+                    <div id="html-export-target" :class="style.exportTarget">
                         <div
                             v-for="(contentUnit, index) in templateContentsState.contents"
                             :key="contentUnit.id"
@@ -420,6 +420,82 @@ const moveItem = (targetIndex: number) => {
     justify-items: center;
     padding: 0 0.5rem;
 }
+
+/* サイズ調整:START */
+.exportTarget {
+    zoom: 100%;
+}
+@media screen and (max-width: 80.125rem) {
+    .exportTarget {
+        zoom: 90%;
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
+    .editorOption {
+        zoom: 90%;
+    }
+}
+@media screen and (max-width: 72.1125rem) {
+    .exportTarget {
+        zoom: 80%;
+        padding-left: 4rem;
+        padding-right: 4rem;
+    }
+    .editorOption {
+        zoom: 80%;
+    }
+}
+@media screen and (max-width: 64.1rem) {
+    .exportTarget {
+        zoom: 70%;
+        padding-left: 5rem;
+        padding-right: 5rem;
+    }
+    .editorOption {
+        zoom: 70%;
+    }
+}
+@media screen and (max-width: 56.0875rem) {
+    .exportTarget {
+        zoom: 60%;
+        padding-left: 6rem;
+        padding-right: 6rem;
+    }
+    .editorOption {
+        zoom: 60%;
+    }
+}
+@media screen and (max-width: 48.075rem) {
+    .exportTarget {
+        zoom: 50%;
+        padding-left: 7rem;
+        padding-right: 7rem;
+    }
+    .editorOption {
+        zoom: 50%;
+    }
+}
+@media screen and (max-width: 40.0625rem) {
+    .exportTarget {
+        zoom: 40%;
+        padding-left: 8rem;
+        padding-right: 8rem;
+    }
+    .editorOption {
+        zoom: 50%;
+    }
+}
+@media screen and (max-width: 32.05rem) {
+    .exportTarget {
+        zoom: 30%;
+        padding-left: 9rem;
+        padding-right: 9rem;
+    }
+    .editorOption {
+        zoom: 30%;
+    }
+}
+/* サイズ調整:END */
 
 .main {
     display: flex;
