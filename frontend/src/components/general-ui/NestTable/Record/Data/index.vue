@@ -6,7 +6,7 @@ const props = defineProps<PropsInterface>()
 </script>
 <template>
     <!-- データ部 -->
-    <div :class="style.data" :style="{ width: (dataLength != 0 ? 35 / dataLength : 0) + 'rem' }">
+    <div :class="style.data" :style="{ width: (props.dataLength != 0 ? 35 / props.dataLength : 0) + 'rem' }">
         <slot name="rowOptions"></slot>
         <slot name="default"></slot>
     </div>

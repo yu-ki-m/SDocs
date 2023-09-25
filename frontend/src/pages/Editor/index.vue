@@ -66,6 +66,7 @@ const templateContentsState = ref<TemplateContentsState>(
         new TemplateContentState({ id: uuidCreator.getUniquId(), contentType: 'quill', content: '' })
     ])
 )
+
 /** テンプレートの内容群初期化 */
 onMounted(async () => {
     let query: LocationQuery = props.pageProps.routerWrapper.getQuery()
@@ -153,12 +154,22 @@ const fileUpload = (e: Event) => {
 }
 
 // Drag& Drop関連
+const draggable = ref<boolean>(false)
 const dragFromIndex = ref<number | null>(null)
 const operationNameForDrop = ref<string | null>(null)
 const saveFromIndex = (index: number, operationName: string) => {
     dragFromIndex.value = index
     operationNameForDrop.value = operationName
 }
+const draggableToFalse = () => {
+    draggable.value = false
+}
+const draggableToTrue = () => {
+    setTimeout(() => {
+        draggable.value = true
+    }, 500)
+}
+
 const moveItem = (targetIndex: number) => {
     if (dragFromIndex.value === null) return
     if (operationNameForDrop.value === null) return
@@ -199,7 +210,7 @@ const moveItem = (targetIndex: number) => {
                     <!-- TODO テストを追加する-->
                     <ExportHtmlButton
                         :filename="docsBaseInfoModel.docsName"
-                        :target-id="'html-export-target'"
+                        :target-id="'export-target'"
                         :save-json-data="
                             JSON.stringify(
                                 { docsBaseInfo: docsBaseInfoModel, templateContents: templateContentsState },
@@ -287,12 +298,14 @@ const moveItem = (targetIndex: number) => {
             ></DocsBaseInfo>
             <main :class="style.main">
                 <ContentsContainerLayout>
-                    <div id="html-export-target" :class="style.exportTarget">
+                    <div id="export-target" :class="style.exportTarget">
                         <div
                             v-for="(contentUnit, index) in templateContentsState.contents"
                             :key="contentUnit.id"
-                            :draggable="true"
+                            :draggable="draggable"
                             data-gid="721126e3-b797-4bbd-a86f-8a3b725ed24e"
+                            @mousedown="draggableToTrue()"
+                            @mouseup="draggableToFalse()"
                             @dragstart="
                                 () => {
                                     saveFromIndex(index, 'moveAnyItem')
@@ -301,6 +314,7 @@ const moveItem = (targetIndex: number) => {
                             @drop="
                                 () => {
                                     moveItem(index)
+                                    draggableToFalse()
                                 }
                             "
                             @dragover.prevent
@@ -310,6 +324,7 @@ const moveItem = (targetIndex: number) => {
                                     <EditorFrame>
                                         <QuillEditor
                                             :value="contentUnit.content"
+                                            :readonly="false"
                                             @input="
                                                 (value: string) => {
                                                     updateContent(contentUnit.id, value)
@@ -332,6 +347,7 @@ const moveItem = (targetIndex: number) => {
                                 <div :class="style.nestTable">
                                     <NestTable
                                         :value="contentUnit.content"
+                                        :readonly="false"
                                         @input="
                                             (value: string) => {
                                                 updateContent(contentUnit.id, value)
@@ -354,6 +370,7 @@ const moveItem = (targetIndex: number) => {
                                 <div :class="style.richTable">
                                     <RichTable
                                         :value="contentUnit.content"
+                                        :readonly="false"
                                         @input="
                                             (value: string) => {
                                                 updateContent(contentUnit.id, value)
@@ -415,7 +432,7 @@ const moveItem = (targetIndex: number) => {
     background-color: var(--primary-gray-200);
     min-height: 1.5rem;
     width: 100vw;
-    z-index: 100;
+    z-index: 1000;
     display: flex;
     justify-items: center;
     padding: 0 0.5rem;
@@ -591,7 +608,7 @@ const moveItem = (targetIndex: number) => {
     display: flex;
     flex-direction: column;
     flex: 1;
-    background-color: var(--primary-gray-300);;
+    background-color: var(--primary-gray-300);
 }
 .documentItem {
     background-color: var(--primary-gray-400);

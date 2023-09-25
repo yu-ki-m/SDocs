@@ -22,7 +22,7 @@ const fileDownload = (fileName: string, content: string, document: Document) => 
     downLoadLink.dataset.downloadurl = ['text/plain', downLoadLink.download, downLoadLink.href].join(':')
     downLoadLink.click()
 }
-const parseSvg = (filename: string, targetId: string, saveJsonData: string) => {
+const parseHtml = (filename: string, targetId: string, saveJsonData: string) => {
     // TODO テストが必要
     isLoading.value = true
     setTimeout(() => {
@@ -47,7 +47,7 @@ const parseSvg = (filename: string, targetId: string, saveJsonData: string) => {
     <button
         title="export html"
         style="color: var(--primary-white); display: flex"
-        @click="parseSvg(props.filename, props.targetId, props.saveJsonData )"
+        @click="parseHtml(props.filename, props.targetId, props.saveJsonData )"
     >
         <img alt="export html" style="width: 1.4rem; height: 1.4rem" :src="exportButton" />
     </button>

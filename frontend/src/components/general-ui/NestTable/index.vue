@@ -15,6 +15,7 @@ import { debounce } from './NestTableDebounce'
 /** コンポーネントのProps定義 */
 export interface PropsInterface {
     value: string
+    readonly: boolean
 }
 const props = defineProps<PropsInterface>()
 
@@ -163,6 +164,7 @@ const copyToClipBoard = (text: string) => {
             <TitleFrame>
                 <TitleInput
                     :value="tableContents.tableTitle"
+                    :readonly="props.readonly"
                     :daynamic-id="tableContents.id"
                     @input="
                         (value: string) => {
@@ -315,6 +317,7 @@ const copyToClipBoard = (text: string) => {
                         </template>
                         <CellInput
                             :value="cell.content"
+                            :readonly="props.readonly"
                             :daynamic-id="cell.id"
                             @input="
                                 (value: string) => {
@@ -362,6 +365,7 @@ const copyToClipBoard = (text: string) => {
                             </template>
                             <CellInput
                                 :value="cell.content"
+                                :readonly="props.readonly"
                                 :daynamic-id="cell.id"
                                 @input="
                                     (value: string) => {

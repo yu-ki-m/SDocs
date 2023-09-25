@@ -8,6 +8,7 @@ import { debounce } from './RichTableDebounce'
 /** コンポーネントのProps定義 */
 export interface PropsInterface {
     value: string
+    readonly: boolean
 }
 const props = defineProps<PropsInterface>()
 
@@ -76,7 +77,7 @@ const deleteRow = (deletePostion: number) => {
 <template>
     <table role="table" class="rich-table">
         <tr class="record">
-            <td ><!-- add button area --></td>
+            <td><!-- add button area --></td>
             <td v-for="(cell, cellIndex) in tableContents.records.at(0)?.cells" :key="cell.id" class="record_option">
                 <div class="record_option_inner">
                     <button class="add-button" tabindex="-1" @click="addRow(cellIndex)">+</button>
@@ -116,6 +117,7 @@ const deleteRow = (deletePostion: number) => {
                 <CellInput
                     class="cell_inner"
                     :value="cell.content"
+                    :readonly="props.readonly"
                     @input="
                         (value: string) => {
                             updateDataCellInput(cell, value)

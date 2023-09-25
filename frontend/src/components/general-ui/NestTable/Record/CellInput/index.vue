@@ -5,6 +5,7 @@ import '@vueup/vue-quill/dist/vue-quill.bubble.css'
 /** コンポーネントのProps型定義 */
 export interface PropsInterface {
     value: string
+    readonly: boolean
     daynamicId: string
 }
 const props = defineProps<PropsInterface>()
@@ -40,6 +41,7 @@ const costomToolbar = [
     <QuillEditor
         data-gid="6f279d0f-92eb-46ae-9cc9-7c6fc4c62b41"
         :daynamic-id="props.daynamicId"
+        :read-only="props.readonly"
         :placeholder="''"
         :theme="'bubble'"
         :content="props.value"
