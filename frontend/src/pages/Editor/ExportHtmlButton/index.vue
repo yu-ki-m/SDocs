@@ -27,12 +27,13 @@ const parseHtml = (filename: string, targetId: string, saveJsonData: string) => 
     isLoading.value = true
     setTimeout(() => {
         const innerHtmlString = DomToHtml.parse(document, targetId)
+        const replacedInnerHtmlString = innerHtmlString.replaceAll('contenteditable="true"', '')
         const htmlString = `
         <!DOCTYPE html>
         <head><meta charset="UTF-8"></head>
         <html lang="ja">
             <body style="display:flex;justify-content: center;">
-                ${innerHtmlString}
+                ${replacedInnerHtmlString}
                 <div id="save-json-data" style="display:none">${saveJsonData}</div>
             </body>
         </html>
