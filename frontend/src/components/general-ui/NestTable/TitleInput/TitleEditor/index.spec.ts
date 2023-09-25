@@ -12,6 +12,7 @@ describe('表示', () => {
         // * Arrange
         const props: PropsInterface = {
             value: '<p>test content for quill Wrapper</p>',
+            readonly: false,
             daynamicId: 'dummy-daynamic-id'
         }
         // * Act
@@ -27,6 +28,7 @@ describe('表示', () => {
         // * Arrange
         const props: PropsInterface = {
             value: '',
+            readonly: false,
             daynamicId: 'dummy-daynamic-id'
         }
         const wrapper = mount(RichEditor, { props })

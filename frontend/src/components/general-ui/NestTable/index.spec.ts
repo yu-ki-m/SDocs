@@ -35,7 +35,8 @@ describe('コンポーネント', () => {
                 tableContentOptions
             )
             const props: PropsInterface = {
-                value: JSON.stringify(tableContent)
+                value: JSON.stringify(tableContent),
+                readonly: false
             }
 
             // * Act
