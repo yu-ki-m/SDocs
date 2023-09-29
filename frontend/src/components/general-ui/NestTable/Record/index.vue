@@ -32,7 +32,7 @@ const props = defineProps<PropsInterface>()
     width: 100%;
 }
 .isHeader {
-    background-color: var(--primary-gray-850);
+    background-color: var(--primary-gray-800);
     print-color-adjust: exact;
     -webkit-print-color-adjust: exact;
 }

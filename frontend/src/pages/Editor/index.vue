@@ -122,14 +122,23 @@ const clickAddRichTable = () => {
 }
 
 // TODO テストを記載する
-const fileUpload = (e: Event) => {
+const fileImport = (e: Event) => {
     const files = (e.target as HTMLInputElement).files
     if (files) {
         const file = files[0]
         const reader = new FileReader()
         reader.onload = () => {
             const fileContentsStr: string = reader.result as string
-            const json = JSON.parse(fileContentsStr)
+            let json = {} as { docsBaseInfo: DocsBaseInfoModelInterface; templateContents: TemplateContentsState }
+            try {
+                json = JSON.parse(fileContentsStr)
+            } catch {
+                // <sdocs>で囲われた部分を取得する
+                const jsonStr = fileContentsStr.match(/<sdocs>(.*)<\/sdocs>/s)?.[1]
+                if (!jsonStr) return
+                json = JSON.parse(jsonStr)
+            }
+
             // ここからはデータに適用する処理
             docsBaseInfoModel.value.docsName = json.docsBaseInfo.docsName
             docsBaseInfoModel.value.docsVersion = json.docsBaseInfo.docsVersion
@@ -236,9 +245,10 @@ const moveItem = (targetIndex: number) => {
                             <input
                                 style="display: none"
                                 type="file"
+                                accept="application/json, text/html"
                                 @change="
                                     (e: Event) => {
-                                        fileUpload(e)
+                                        fileImport(e)
                                     }
                                 "
                             />

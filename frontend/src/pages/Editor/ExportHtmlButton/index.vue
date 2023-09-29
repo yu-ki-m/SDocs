@@ -34,7 +34,7 @@ const parseHtml = (filename: string, targetId: string, saveJsonData: string) => 
         <html lang="ja">
             <body style="display:flex;justify-content: center;">
                 ${replacedInnerHtmlString}
-                <div id="save-json-data" style="display:none">${saveJsonData}</div>
+                <div id="save-json-data" style="display:none"><sdocs>${saveJsonData}</sdocs></div>
             </body>
         </html>
         `
