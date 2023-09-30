@@ -27,7 +27,7 @@ const parseHtml = (filename: string, targetId: string, saveJsonData: string) => 
     isLoading.value = true
     setTimeout(() => {
         const innerHtmlString = DomToHtml.parse(document, targetId)
-        const replacedInnerHtmlString = innerHtmlString.replaceAll('contenteditable="true"', '')
+        const replacedInnerHtmlString = innerHtmlString.replaceAll('-webkit-user-modify:read-write;', '')
         const htmlString = `
         <!DOCTYPE html>
         <head><meta charset="UTF-8"></head>
@@ -48,7 +48,7 @@ const parseHtml = (filename: string, targetId: string, saveJsonData: string) => 
     <button
         title="export html"
         style="color: var(--primary-white); display: flex"
-        @click="parseHtml(props.filename, props.targetId, props.saveJsonData )"
+        @click="parseHtml(props.filename, props.targetId, props.saveJsonData)"
     >
         <img alt="export html" style="width: 1.4rem; height: 1.4rem" :src="exportButton" />
     </button>

@@ -1,44 +1,37 @@
 export class DomToHtml {
+    static styleCounter = 0
+    static styleMap: { [key: string]: string } = {}
+    static styleSet: Set<string> = new Set()
+
     static parse(document: Document, targetId: string) {
         const targetElement: HTMLElement | null = document.getElementById(targetId)
+        let styles = ''
+
         if (targetElement) {
             const htmlDocument = this.domToHtml(targetElement)
+            styles = this.generateStyles()
             if (!htmlDocument) return 'Error'
-            return htmlDocument
+            return `<style>${styles}</style>` + htmlDocument
         }
         return 'Error'
     }
 
     static domToHtml(element: HTMLElement): string {
         if (element.nodeType === 3) {
-            // Text node
             return element.nodeValue || ''
         }
 
         if (element.nodeType === 1 && element instanceof HTMLElement) {
-            // Element node
             let html = `<${element.tagName.toLowerCase()}`
 
-            // Add attributes
-            for (let i = 0; i < element.attributes.length; i++) {
-                const attr = element.attributes[i]
-                if (attr.name !== 'style') {
-                    // Skip style as we handle it separately
-                    html += ` ${attr.name}="${attr.value}"`
-                }
-            }
-
-            // Add styles
-            const inlineStyles = this.getInlineStyles(element)
             const appliedStyles = this.getAppliedStyles(element)
-            const combinedStyles = inlineStyles + ';' + appliedStyles
-            if (combinedStyles) {
-                html += ` style="${combinedStyles}"`
+            if (appliedStyles) {
+                const className = this.addStyle(appliedStyles)
+                html += ` class="${className}"`
             }
 
             html += '>'
 
-            // Process child nodes
             for (let i = 0; i < element.childNodes.length; i++) {
                 html += this.domToHtml(element.childNodes[i] as HTMLElement)
             }
@@ -49,8 +42,25 @@ export class DomToHtml {
 
         return ''
     }
-    static getInlineStyles(element: HTMLElement): string {
-        return element.getAttribute('style') || ''
+
+    static addStyle(style: string): string {
+        if (this.styleMap[style]) {
+            return this.styleMap[style]
+        }
+
+        const className = `style-${this.styleCounter++}`
+        this.styleMap[style] = className
+        this.styleSet.add(style)
+        return className
+    }
+
+    static generateStyles(): string {
+        let styles = ''
+        for (const style of this.styleSet) {
+            const className = this.styleMap[style]
+            styles += `.${className} { ${style} }\n`
+        }
+        return styles
     }
 
     static getAppliedStyles(element: HTMLElement): string {
