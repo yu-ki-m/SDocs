@@ -24,6 +24,14 @@ export class DomToHtml {
         if (element.nodeType === 1 && element instanceof HTMLElement) {
             let html = `<${element.tagName.toLowerCase()}`
 
+            // Copy attributes except 'class' and 'style'
+            for (let i = 0; i < element.attributes.length; i++) {
+                const attr = element.attributes[i]
+                if (attr.name !== 'class' && attr.name !== 'style') {
+                    html += ` ${attr.name}="${attr.value}"`
+                }
+            }
+
             const appliedStyles = this.getAppliedStyles(element)
             if (appliedStyles) {
                 const className = this.addStyle(appliedStyles)

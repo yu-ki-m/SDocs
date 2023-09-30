@@ -27,7 +27,9 @@ const parseHtml = (filename: string, targetId: string, saveJsonData: string) => 
     isLoading.value = true
     setTimeout(() => {
         const innerHtmlString = DomToHtml.parse(document, targetId)
-        const replacedInnerHtmlString = innerHtmlString.replaceAll('-webkit-user-modify:read-write;', '')
+        const replacedContentEdit = innerHtmlString.replaceAll('contenteditable="true"', '')
+        const replacedUserModify = replacedContentEdit.replaceAll('-webkit-user-modify:read-write;', '')
+        const replacedInnerHtmlString = replacedUserModify.replaceAll(`draggable="true"`, '')
         const htmlString = `
         <!DOCTYPE html>
         <head><meta charset="UTF-8"></head>
