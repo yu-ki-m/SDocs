@@ -34,6 +34,7 @@ export class TableContentModule {
 export default class TableContent {
     constructor(
         public id: string,
+        public tableTitle: string,
         public records: RecordContent[],
         public tableContentModule: TableContentModule
     ) {}
@@ -50,6 +51,7 @@ export default class TableContent {
         const instance = JSON.parse(jsonString)
         return new TableContent(
             instance.id,
+            instance.tableTitle,
             instance.records.map((record: RecordContent) => {
                 return new RecordContent(
                     record.id,
@@ -64,6 +66,7 @@ export default class TableContent {
     }
 
     initRecords = () => {
+        this.tableTitle = ''
         for (let i = 0; i < 2; i++) {
             const newRecord = new RecordContent(this.tableContentModule.uuid.getUniquId(), false, [
                 new CellContent(this.tableContentModule.uuid.getUniquId(), CELL_TYPE.QUILL, ''),
@@ -123,27 +126,4 @@ export default class TableContent {
             }
         })
     }
-
-    // replacePositionRow = (replacePostion: number, replaceTargetPostion: number) => {
-    //     if (replaceTargetPostion < 0 || replaceTargetPostion >= this.records[0].cells.length) {
-    //         return
-    //     }
-    //     this.records.forEach((recordContent: RecordContent) => {
-    //         const temp = recordContent.cells[replacePostion]
-    //         recordContent.cells[replacePostion] = recordContent.cells[replaceTargetPostion]
-    //         recordContent.cells[replaceTargetPostion] = temp
-    //     })
-    // }
-
-    // replacePositionRecord = (replacePostion: number, replaceTargetPostion: number) => {
-    //     if (replaceTargetPostion < 1 || replaceTargetPostion >= this.records.length) {
-    //         return
-    //     }
-    //     if (replacePostion < 1 || replacePostion >= this.records.length) {
-    //         return
-    //     }
-    //     const temp = this.records[replacePostion]
-    //     this.records[replacePostion] = this.records[replaceTargetPostion]
-    //     this.records[replaceTargetPostion] = temp
-    // }
 }
