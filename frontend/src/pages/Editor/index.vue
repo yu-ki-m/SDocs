@@ -7,6 +7,7 @@ import { TemplateContentsInterface } from '../../components/sdocs/TemplateConten
 import ContentsContainerLayout from './ContentsContainerLayout/index.vue'
 import NestTable from '../../components/general-ui/NestTable/index.vue'
 import RichTable from '../../components/general-ui/RichTable/index.vue'
+import GridEditor from '../../components/general-ui/GridEditor/index.vue'
 
 import RichEditorRecordLayout from '../../components/general-ui/RichEditorRecordLayout/index.vue'
 import { Uuid, UuidInterface } from '../../components/Uuid'
@@ -20,6 +21,7 @@ import DocsBaseInfoModel, { DocsBaseInfoModelInterface } from './DocsBaseInfoMod
 
 import { TemplateSummaryInterface } from '../../components/sdocs/TemplateSummary'
 import ExportHtmlButton from './ExportHtmlButton/index.vue'
+import ExportSvgButton from './ExportSvgButton/index.vue'
 import ExportJsonButton from './ExportJsonButton/index.vue'
 import FileImport from '../../assets/fileImport.svg'
 
@@ -120,6 +122,13 @@ const clickAddRichTable = () => {
     )
     templateContentsState.value = { ...templateContentsState.value }
 }
+const clickAddGridEditor = () => {
+    templateContentsState.value.contents = templateContentsState.value.addContentsGridEditor(
+        templateContentsState.value.contents,
+        uuidCreator
+    )
+    templateContentsState.value = { ...templateContentsState.value }
+}
 
 // TODO テストを記載する
 const fileImport = (e: Event) => {
@@ -206,6 +215,12 @@ const moveItem = (targetIndex: number) => {
             targetIndex,
             uuidCreator
         )
+    } else if (operationNameForDrop.value === 'new-grid-editor') {
+        templateContentsState.value.contents = templateContentsState.value.insertNewContentsGridEditor(
+            templateContentsState.value.contents,
+            targetIndex,
+            uuidCreator
+        )
     }
     templateContentsState.value = { ...templateContentsState.value }
 }
@@ -239,8 +254,20 @@ const moveItem = (targetIndex: number) => {
                             )
                         "
                     />
+
+                    <ExportSvgButton
+                        :filename="docsBaseInfoModel.docsName"
+                        :target-id="'export-target'"
+                        :save-json-data="
+                            JSON.stringify(
+                                { docsBaseInfo: docsBaseInfoModel, templateContents: templateContentsState },
+                                null,
+                                '    '
+                            )
+                        "
+                    ></ExportSvgButton>
                     <div style="display: flex; align-items: center">
-                        <label title="json file import" style="width: 1.2rem; height: 1.2rem; cursor: pointer">
+                        <label title="import json or html file " style="width: 1.2rem; height: 1.2rem; cursor: pointer">
                             <img :src="FileImport" alt="file import" />
                             <input
                                 style="display: none"
@@ -293,6 +320,18 @@ const moveItem = (targetIndex: number) => {
                         "
                     >
                         <span>RT</span>
+                    </div>
+                    <div
+                        title="Rich Table"
+                        :draggable="true"
+                        :class="style.documentItem"
+                        @dragstart="
+                            () => {
+                                saveFromIndex(-1, 'new-grid-editor')
+                            }
+                        "
+                    >
+                        <span>GE</span>
                     </div>
                 </div>
             </nav>
@@ -400,6 +439,32 @@ const moveItem = (targetIndex: number) => {
                                     </div>
                                 </div>
                             </template>
+
+                            <!-- 調査中  -->
+                            <template v-else-if="contentUnit.contentType == 'grid-editor'">
+                                <div :class="style.gridEditor">
+                                    <GridEditor
+                                        :value="contentUnit.content"
+                                        :readonly="false"
+                                        @input="
+                                            (value: string) => {
+                                                updateContent(contentUnit.id, value)
+                                            }
+                                        "
+                                    >
+                                    </GridEditor>
+                                    <div :class="style.gridEditorRightOption">
+                                        <button
+                                            :class="style.gridEditorDelete"
+                                            data-gid="54ed5d53-7f16-4e67-9de3-73f462b49340"
+                                            title="削除"
+                                            @click="deleteContent(index)"
+                                        >
+                                            ×
+                                        </button>
+                                    </div>
+                                </div>
+                            </template>
                         </div>
                     </div>
                     <div
@@ -414,6 +479,7 @@ const moveItem = (targetIndex: number) => {
                         <button id="add-rich-editor" type="button" @click="clickAddRichEditor">Add Rich Text</button>
                         <button id="add-nest-table" type="button" @click="clickAddNestTable">Add Nest Table</button>
                         <button id="add-rich-table" type="button" @click="clickAddRichTable">Add Rich Table</button>
+                        <button id="add-grid-editor" type="button" @click="clickAddGridEditor">Add Grid Editor</button>
                     </div>
                 </ContentsContainerLayout>
             </main>
@@ -597,6 +663,25 @@ const moveItem = (targetIndex: number) => {
 .richTable:hover .richTableDelete {
     opacity: 1;
 }
+
+.gridEditor {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.gridEditorRightOption {
+    width: 1rem;
+}
+.gridEditorDelete {
+    width: 1rem;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+.gridEditor:hover .gridEditorDelete {
+    opacity: 1;
+}
+
 .editNav {
     position: fixed;
     display: flex;

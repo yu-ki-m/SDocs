@@ -107,5 +107,6 @@ const costomToolbar = [
 
 .ql-container a {
     pointer-events: pointer;
+    cursor: pointer;
 }
 </style>
