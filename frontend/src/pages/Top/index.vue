@@ -77,7 +77,6 @@ const toEditorPage = (templateId: string) => {
     flex-direction: column;
     align-items: center;
     padding-top: var(--padding-top);
-    background-color: var(--primary-gray-900);
     min-height: calc(100% - var(--padding-top));
     width: 100%;
     gap: 1rem;

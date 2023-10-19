@@ -491,7 +491,6 @@ const moveItem = (targetIndex: number) => {
 .mainContainer {
     display: flex;
     flex-direction: column;
-    background-color: var(--primary-navy-white-900);
 }
 .nav {
     display: flex;

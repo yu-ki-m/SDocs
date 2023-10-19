@@ -43,6 +43,5 @@ const pageProps: PagePropsInterface = new PageProps(windowWrapper, repositoryFac
     display: flex;
     flex-flow: column;
     min-height: 100vh;
-    background-color: var(--primary-navy-white-900);
 }
 </style>

@@ -11,7 +11,6 @@
     display: flex;
     flex-direction: column;
     flex: 1;
-    background-color: var(--primary-navy-white-900);
     transition: box-shadow 0.3s ease-in-out;
     padding: 0.2rem;
     border-radius: 0.3rem;

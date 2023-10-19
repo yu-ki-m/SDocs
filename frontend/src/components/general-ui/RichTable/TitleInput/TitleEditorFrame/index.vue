@@ -8,7 +8,6 @@
 
 <style module="style">
 .editorFrame {
-    background-color: var(--primary-navy-white-900);
     transition: box-shadow 0.3s ease-in-out;
     padding-left: 0.2rem;
     border-radius: 0.3rem;
