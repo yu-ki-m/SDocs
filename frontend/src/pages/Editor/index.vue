@@ -322,7 +322,7 @@ const moveItem = (targetIndex: number) => {
                         <span>RT</span>
                     </div>
                     <div
-                        title="Rich Table"
+                        title="Grid Editor"
                         :draggable="true"
                         :class="style.documentItem"
                         @dragstart="

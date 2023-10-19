@@ -97,10 +97,11 @@ export default class TableContent {
     }
 
     deleteRecord = (deletePostion: number) => {
-        if (deletePostion <= 0 || deletePostion >= this.records.length) {
+        if (deletePostion < 0 || this.records.length <= 1 || deletePostion >= this.records.length) {
             BrowserLogger.warn(MESSAGE_TableContent.DELETE_RECORD_OUT_OF_RANGE(deletePostion, this.records.length - 1))
             return
         }
+
         this.records.splice(deletePostion, 1)
     }
 
