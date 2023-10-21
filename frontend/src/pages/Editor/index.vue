@@ -8,6 +8,7 @@ import ContentsContainerLayout from './ContentsContainerLayout/index.vue'
 import NestTable from '../../components/general-ui/NestTable/index.vue'
 import RichTable from '../../components/general-ui/RichTable/index.vue'
 import GridEditor from '../../components/general-ui/GridEditor/index.vue'
+import FlexGridEditor from '../../components/general-ui/FlexGridEditor/index.vue'
 
 import RichEditorRecordLayout from '../../components/general-ui/RichEditorRecordLayout/index.vue'
 import { Uuid, UuidInterface } from '../../components/Uuid'
@@ -130,6 +131,14 @@ const clickAddGridEditor = () => {
     templateContentsState.value = { ...templateContentsState.value }
 }
 
+const clickAddFlexGridEditor = () => {
+    templateContentsState.value.contents = templateContentsState.value.addContentsFlexGridEditor(
+        templateContentsState.value.contents,
+        uuidCreator
+    )
+    templateContentsState.value = { ...templateContentsState.value }
+}
+
 // TODO テストを記載する
 const fileImport = (e: Event) => {
     const files = (e.target as HTMLInputElement).files
@@ -217,6 +226,12 @@ const moveItem = (targetIndex: number) => {
         )
     } else if (operationNameForDrop.value === 'new-grid-editor') {
         templateContentsState.value.contents = templateContentsState.value.insertNewContentsGridEditor(
+            templateContentsState.value.contents,
+            targetIndex,
+            uuidCreator
+        )
+    } else if (operationNameForDrop.value === 'new-flex-grid-editor') {
+        templateContentsState.value.contents = templateContentsState.value.insertNewContentsFlexGridEditor(
             templateContentsState.value.contents,
             targetIndex,
             uuidCreator
@@ -333,6 +348,18 @@ const moveItem = (targetIndex: number) => {
                     >
                         <span>GE</span>
                     </div>
+                    <div
+                        title="Flex Grid Editor"
+                        :draggable="true"
+                        :class="style.documentItem"
+                        @dragstart="
+                            () => {
+                                saveFromIndex(-1, 'new-flex-grid-editor')
+                            }
+                        "
+                    >
+                        <span>FG</span>
+                    </div>
                 </div>
             </nav>
             <DocsBaseInfo
@@ -440,7 +467,6 @@ const moveItem = (targetIndex: number) => {
                                 </div>
                             </template>
 
-                            <!-- 調査中  -->
                             <template v-else-if="contentUnit.contentType == 'grid-editor'">
                                 <div :class="style.gridEditor">
                                     <GridEditor
@@ -465,6 +491,31 @@ const moveItem = (targetIndex: number) => {
                                     </div>
                                 </div>
                             </template>
+
+                            <template v-else-if="contentUnit.contentType == 'flex-grid-editor'">
+                                <div :class="style.gridEditor">
+                                    <FlexGridEditor
+                                        :value="contentUnit.content"
+                                        :readonly="false"
+                                        @input="
+                                            (value: string) => {
+                                                updateContent(contentUnit.id, value)
+                                            }
+                                        "
+                                    >
+                                    </FlexGridEditor>
+                                    <div :class="style.gridEditorRightOption">
+                                        <button
+                                            :class="style.gridEditorDelete"
+                                            data-gid="68493cc0-a201-4610-8e43-5b908ccbd275"
+                                            title="削除"
+                                            @click="deleteContent(index)"
+                                        >
+                                            ×
+                                        </button>
+                                    </div>
+                                </div>
+                            </template>
                         </div>
                     </div>
                     <div
@@ -480,6 +531,7 @@ const moveItem = (targetIndex: number) => {
                         <button id="add-nest-table" type="button" @click="clickAddNestTable">Add Nest Table</button>
                         <button id="add-rich-table" type="button" @click="clickAddRichTable">Add Rich Table</button>
                         <button id="add-grid-editor" type="button" @click="clickAddGridEditor">Add Grid Editor</button>
+                        <button id="add-grid-editor" type="button" @click="clickAddFlexGridEditor">Add FlexGrid Editor</button>
                     </div>
                 </ContentsContainerLayout>
             </main>

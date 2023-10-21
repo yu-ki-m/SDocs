@@ -132,6 +132,16 @@ export class TemplateContentsState implements TemplateContentsStateInterface {
         const contentsTmp = [...contents, templateContent]
         return contentsTmp
     }
+    addContentsFlexGridEditor = (contents: TemplateContentStateInterface[], uuidCreator: UuidInterface) => {
+        const templateContent: TemplateContentStateInterface = new TemplateContentState({
+            id: uuidCreator.getUniquId(),
+            contentType: 'flex-grid-editor',
+            content: ''
+        })
+        //this.contents.push(templateContent)
+        const contentsTmp = [...contents, templateContent]
+        return contentsTmp
+    }
     insertNewContentsRichEditor = (
         contents: TemplateContentStateInterface[],
         to: number,
@@ -170,6 +180,15 @@ export class TemplateContentsState implements TemplateContentsStateInterface {
         return contents
     }
 
+    insertNewContentsFlexGridEditor = (
+        contents: TemplateContentStateInterface[],
+        to: number,
+        uuidCreator: UuidInterface
+    ) => {
+        contents = this.addContentsFlexGridEditor(contents, uuidCreator)
+        contents = this.moveIndex(contents, contents.length - 1, to)
+        return contents
+    }
     moveIndex = (contents: TemplateContentStateInterface[], from: number, to: number) => {
         const target = contents[from]
         contents.splice(from, 1)

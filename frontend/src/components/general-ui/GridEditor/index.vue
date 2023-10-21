@@ -210,6 +210,19 @@ const replacePositionRecord = (replacePostion: number, replaceTargetPostion: num
     flex: 1;
 }
 
+/* 他の子コンポーネントに影響を及ぼすので暫定 */
+.table > div > div {
+    border: solid 1px rgba(0, 0, 0, 0);
+}
+.table:hover > div > div {
+    border: solid 1px var(--primary-gray-800);
+}
+.table:focus-within > div > div {
+    border: solid 1px var(--primary-gray-800);
+}
+.table > div:nth-child(n + 2) > div {
+    border-top: solid 0px rgba(0, 0, 0, 0);
+}
 .option {
     display: flex;
     width: 0rem;

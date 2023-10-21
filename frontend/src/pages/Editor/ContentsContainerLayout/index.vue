@@ -17,6 +17,6 @@
     display: flex;
     flex-direction: column;
     width: 66rem;
-    padding-top: 2rem;
+    padding-top: 3rem;
 }
 </style>
