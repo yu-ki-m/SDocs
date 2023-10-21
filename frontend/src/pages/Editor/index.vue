@@ -171,7 +171,7 @@ const fileImport = (e: Event) => {
                     })
                 }
             )
-            docsBaseInfoModel.value = { ...docsBaseInfoModel.value }
+            //docsBaseInfoModel.value = { ...docsBaseInfoModel.value } // NG
             templateContentsState.value = { ...templateContentsState.value }
         }
         reader.readAsText(file)

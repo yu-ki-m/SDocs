@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { DocsBaseInfoInterface } from './EmitTypes'
-
+import UpdateIdButton from './UpdateIdButton/index.vue'
 /**
  * コンポーネントのProps型定義
  */
@@ -32,6 +32,12 @@ const inputUpdateDocsId = (event: Event) => {
     docsBaseInfoTmp.docsId = docsIdTmp
     emits('input', docsBaseInfoTmp)
 }
+
+const inputUpdateDocsIdButton = (docsIdTmp: string) => {
+    let docsBaseInfoTmp: DocsBaseInfoInterface = { ...props }
+    docsBaseInfoTmp.docsId = docsIdTmp
+    emits('input', docsBaseInfoTmp)
+}
 </script>
 
 <template>
@@ -56,6 +62,13 @@ const inputUpdateDocsId = (event: Event) => {
                 />
             </label>
             <label>
+                <UpdateIdButton
+                    @input="
+                        (docsIdTmp: string) => {
+                            inputUpdateDocsIdButton(docsIdTmp)
+                        }
+                    "
+                ></UpdateIdButton>
                 <input
                     id="editor_docs-id"
                     placeholder="docs id"
@@ -86,14 +99,17 @@ const inputUpdateDocsId = (event: Event) => {
     z-index: 10;
 }
 
-.baseInfo > label > input {
+.baseInfo > label {
     --border-width: 1px;
+    display: flex;
+    border: solid var(--border-width) var(--primary-gray-400);
+}
+.baseInfo > label > input {
     display: flex;
     background-color: var(--primary-gray-300);
     outline: none;
     padding: 0 0.5rem;
     margin: 0;
-    border: solid var(--border-width) var(--primary-gray-400);
     color: var(--primary-gray-800);
     min-width: 1rem;
 }
