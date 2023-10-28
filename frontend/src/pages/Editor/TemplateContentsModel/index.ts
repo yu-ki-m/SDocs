@@ -142,6 +142,16 @@ export class TemplateContentsState implements TemplateContentsStateInterface {
         const contentsTmp = [...contents, templateContent]
         return contentsTmp
     }
+    addContentsPageBreakLine = (contents: TemplateContentStateInterface[], uuidCreator: UuidInterface) => {
+        const templateContent: TemplateContentStateInterface = new TemplateContentState({
+            id: uuidCreator.getUniquId(),
+            contentType: 'page-break-line',
+            content: ''
+        })
+        //this.contents.push(templateContent)
+        const contentsTmp = [...contents, templateContent]
+        return contentsTmp
+    }
     insertNewContentsRichEditor = (
         contents: TemplateContentStateInterface[],
         to: number,
@@ -179,13 +189,17 @@ export class TemplateContentsState implements TemplateContentsStateInterface {
         contents = this.moveIndex(contents, contents.length - 1, to)
         return contents
     }
-
     insertNewContentsFlexGridEditor = (
         contents: TemplateContentStateInterface[],
         to: number,
         uuidCreator: UuidInterface
     ) => {
         contents = this.addContentsFlexGridEditor(contents, uuidCreator)
+        contents = this.moveIndex(contents, contents.length - 1, to)
+        return contents
+    }
+    insertPageBreakLine = (contents: TemplateContentStateInterface[], to: number, uuidCreator: UuidInterface) => {
+        contents = this.addContentsPageBreakLine(contents, uuidCreator)
         contents = this.moveIndex(contents, contents.length - 1, to)
         return contents
     }

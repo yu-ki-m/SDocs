@@ -9,6 +9,7 @@ import NestTable from '../../components/general-ui/NestTable/index.vue'
 import RichTable from '../../components/general-ui/RichTable/index.vue'
 import GridEditor from '../../components/general-ui/GridEditor/index.vue'
 import FlexGridEditor from '../../components/general-ui/FlexGridEditor/index.vue'
+import PageBreakLine from '../../components/general-ui/PageBreakLine/index.vue'
 
 import RichEditorRecordLayout from '../../components/general-ui/RichEditorRecordLayout/index.vue'
 import { Uuid, UuidInterface } from '../../components/Uuid'
@@ -138,6 +139,13 @@ const clickAddFlexGridEditor = () => {
     )
     templateContentsState.value = { ...templateContentsState.value }
 }
+const clickAddPageBreakLine = () => {
+    templateContentsState.value.contents = templateContentsState.value.addContentsPageBreakLine(
+        templateContentsState.value.contents,
+        uuidCreator
+    )
+    templateContentsState.value = { ...templateContentsState.value }
+}
 
 // TODO テストを記載する
 const fileImport = (e: Event) => {
@@ -232,6 +240,12 @@ const moveItem = (targetIndex: number) => {
         )
     } else if (operationNameForDrop.value === 'new-flex-grid-editor') {
         templateContentsState.value.contents = templateContentsState.value.insertNewContentsFlexGridEditor(
+            templateContentsState.value.contents,
+            targetIndex,
+            uuidCreator
+        )
+    } else if (operationNameForDrop.value === 'page-break-line') {
+        templateContentsState.value.contents = templateContentsState.value.insertPageBreakLine(
             templateContentsState.value.contents,
             targetIndex,
             uuidCreator
@@ -359,6 +373,18 @@ const moveItem = (targetIndex: number) => {
                         "
                     >
                         <span>FG</span>
+                    </div>
+                    <div
+                        title="Page Break Line"
+                        :draggable="true"
+                        :class="style.documentItem"
+                        @dragstart="
+                            () => {
+                                saveFromIndex(-1, 'page-break-line')
+                            }
+                        "
+                    >
+                        <span>PB</span>
                     </div>
                 </div>
             </nav>
@@ -516,6 +542,21 @@ const moveItem = (targetIndex: number) => {
                                     </div>
                                 </div>
                             </template>
+                            <template v-else-if="contentUnit.contentType == 'page-break-line'">
+                                <div :class="[style.pageBreakLineArea, style.gridEditor]">
+                                    <PageBreakLine></PageBreakLine>
+                                    <div :class="style.gridEditorRightOption">
+                                        <button
+                                            :class="style.gridEditorDelete"
+                                            data-gid="67885974-9caa-4999-acfc-19a6ec76df59"
+                                            title="削除"
+                                            @click="deleteContent(index)"
+                                        >
+                                            ×
+                                        </button>
+                                    </div>
+                                </div>
+                            </template>
                         </div>
                     </div>
                     <div
@@ -531,7 +572,8 @@ const moveItem = (targetIndex: number) => {
                         <button id="add-nest-table" type="button" @click="clickAddNestTable">Add Nest Table</button>
                         <button id="add-rich-table" type="button" @click="clickAddRichTable">Add Rich Table</button>
                         <button id="add-grid-editor" type="button" @click="clickAddGridEditor">Add Grid Editor</button>
-                        <button id="add-grid-editor" type="button" @click="clickAddFlexGridEditor">Add FlexGrid Editor</button>
+                        <button id="add-flex-grid-editor" type="button" @click="clickAddFlexGridEditor">Add FlexGrid Editor</button>
+                        <button id="add-page-break-line" type="button" @click="clickAddPageBreakLine">Add Page Break Line</button>
                     </div>
                 </ContentsContainerLayout>
             </main>
@@ -747,6 +789,11 @@ const moveItem = (targetIndex: number) => {
 @media print {
     .editNav {
         display: none;
+    }
+}
+@media print {
+    .pageBreakLineArea {
+        opacity: 0;
     }
 }
 
