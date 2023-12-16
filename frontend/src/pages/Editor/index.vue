@@ -610,6 +610,8 @@ const moveItem = (targetIndex: number) => {
 /* サイズ調整:START */
 .exportTarget {
     zoom: 100%;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
 }
 @media screen and (max-width: 80.125rem) {
     .exportTarget {
